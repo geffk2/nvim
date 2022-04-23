@@ -7,3 +7,6 @@
 [submodule "bundle/vim-grepper"]
 	path = bundle/vim-grepper
 	url = https://github.com/mhinz/vim-grepper.git
+[submodule "bundle/vim-gitgutter"]
+	path = bundle/vim-gitgutter
+	url = https://github.com/airblade/vim-gitgutter.git
