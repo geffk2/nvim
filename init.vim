@@ -22,11 +22,23 @@ execute pathogen#infect()
 autocmd vimenter * ++nested colorscheme gruvbox
 
 "Floaterm
-autocmd VimEnter * FloatermNew --silent
+function! SetupFloaterm()
+  execute "silent FloatermKill!"
+  execute "FloatermNew --name=zsh --silent"
+  if &filetype == "haskell"
+    execute "FloatermNew --name=ghci --silent"
+    execute "FloatermSend --name=ghci stack repl"
+  endif
+endfunction
+
+autocmd BufWritePost *.hs FloatermSend --name=ghc :reload
+
+nnoremap <C-t> :FloatermNext <cr>
+autocmd VimEnter * call SetupFloaterm()
 let g:floaterm_keymap_toggle = '†'
 let g:floaterm_wintype = 'split'
 let g:floaterm_height = 19
-let g:floaterm_position = 'rightbelow'
+" let g:floaterm_position = 'rightbelow'
 
 "Airline
 let g:airline_powerline_fonts = 1
@@ -69,6 +81,8 @@ nnoremap <leader>- :Tabularize /-><CR>
 nnoremap <leader>, :Tabularize /,<CR>
 nnoremap <leader># :Tabularize /#-}<CR>
 
+" Yep CoC
+
 map <Leader>ggd <Plug>(coc-definition)
 map <Leader>ggi <Plug>(coc-implementation)
 map <Leader>ggt <Plug>(coc-type-definition)
@@ -78,6 +92,7 @@ map <Leader>gp <Plug>(coc-diagnostic-prev)
 map <Leader>gr <Plug>(coc-references)
 
 map <Leader>rn <Plug>(coc-rename)
+
 map <Leader>rf <Plug>(coc-refactor)
 map <Leader>qf <Plug>(coc-fix-current)
 
@@ -96,3 +111,29 @@ inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<CR>"
 autocmd CursorHold * silent call CocActionAsync('highlight')
 autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 
+" Create default mappings
+let g:NERDCreateDefaultMappings = 1
+
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+
+" Use compact syntax for prettified multi-line comments
+let g:NERDCompactSexyComs = 1
+
+" Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDDefaultAlign = 'left'
+
+" Set a language to use its alternate delimiters by default
+let g:NERDAltDelims_java = 1
+
+" Add your own custom formats or override the defaults
+let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' }, 'vim': {'left': '"'}}
+
+" Allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDCommentEmptyLines = 1
+
+" Enable trimming of trailing whitespace when uncommenting
+let g:NERDTrimTrailingWhitespace = 1
+
+" Enable NERDCommenterToggle to check all selected lines is commented or not 
+let g:NERDToggleCheckAllLines = 1
