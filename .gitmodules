@@ -1,9 +1,6 @@
 [submodule "bundle/haskell-vim"]
 	path = bundle/haskell-vim
 	url = https://github.com/neovimhaskell/haskell-vim.git
-[submodule "bundle/nerdtree"]
-	path = bundle/nerdtree
-	url = https://github.com/preservim/nerdtree.git
 [submodule "bundle/vim-grepper"]
 	path = bundle/vim-grepper
 	url = https://github.com/mhinz/vim-grepper.git
@@ -19,9 +16,6 @@
 [submodule "bundle/coc.nvim"]
 	path = bundle/coc.nvim
 	url = https://github.com/neoclide/coc.nvim.git
-[submodule "bundle/vim-floaterm"]
-	path = bundle/vim-floaterm
-	url = https://github.com/voldikss/vim-floaterm.git
 [submodule "bundle/vim-airline"]
 	path = bundle/vim-airline
 	url = https://github.com/vim-airline/vim-airline.git
@@ -34,3 +28,27 @@
 [submodule "bundle/auto-pairs"]
 	path = bundle/auto-pairs
 	url = https://github.com/jiangmiao/auto-pairs.git
+[submodule "bundle/vim-floaterm"]
+	path = bundle/vim-floaterm
+	url = https://github.com/voldikss/vim-floaterm.git
+[submodule "bundle/FixCursorHold.nvim"]
+	path = bundle/FixCursorHold.nvim
+	url = https://github.com/antoinemadec/FixCursorHold.nvim.git
+[submodule "bundle/fern.vim"]
+	path = bundle/fern.vim
+	url = https://github.com/lambdalisue/fern.vim.git
+[submodule "bundle/nerdfont.vim"]
+	path = bundle/nerdfont.vim
+	url = https://github.com/lambdalisue/nerdfont.vim.git
+[submodule "bundle/fern-renderer-nerdfont.vim"]
+	path = bundle/fern-renderer-nerdfont.vim
+	url = https://github.com/lambdalisue/fern-renderer-nerdfont.vim.git
+[submodule "bundle/dashboard-nvim"]
+	path = bundle/dashboard-nvim
+	url = https://github.com/glepnir/dashboard-nvim.git
+[submodule "bundle/vim-clap"]
+	path = bundle/vim-clap
+	url = https://github.com/liuchengxu/vim-clap.git
+[submodule "bundle/fern-hijack.vim"]
+	path = bundle/fern-hijack.vim
+	url = https://github.com/lambdalisue/fern-hijack.vim.git
