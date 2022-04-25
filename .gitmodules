@@ -52,3 +52,6 @@
 [submodule "bundle/fern-hijack.vim"]
 	path = bundle/fern-hijack.vim
 	url = https://github.com/lambdalisue/fern-hijack.vim.git
+[submodule "bundle/nvim-scrollbar"]
+	path = bundle/nvim-scrollbar
+	url = https://github.com/petertriho/nvim-scrollbar.git

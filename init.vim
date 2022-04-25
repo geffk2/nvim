@@ -18,10 +18,22 @@ set laststatus=0
 
 execute pathogen#infect()
 
-"Set up fern and terminal
+"snippets
+imap <C-l> <Plug>(coc-snippets-expand)
+vmap <C-j> <Plug>(coc-snippets-select)
+let g:coc_snippet_prev = '<c-k>'
+
+"scrollbar 
+lua require("scrollbar").setup({handle={highlight="CursorColumn"}})
+
+"Make Cmd-S work
+noremap! <C-s> <esc>:w<cr>
+nnoremap <C-s> :w<cr>
+""Set up fern and terminal
 
 let s:term_ready = v:false
 let s:fern_ready = v:false
+let s:haskell_term_ready = v:false
 function! MySetup()
   if &filetype == "dashboard"
     return
@@ -31,13 +43,16 @@ function! MySetup()
     let s:fern_ready = v:true
   endif
 
+  execute 'cd ' . expand("%:p:h")
 
   if !s:term_ready
     execute "FloatermNew --name=zsh --silent"
-    if &filetype == "haskell"
-      execute 'FloatermNew --name=ghci --silent stack repl'
-    endif
     let s:term_ready = v:true
+  endif
+
+  if !s:haskell_term_ready && &filetype == "haskell"
+      execute 'FloatermNew --name=ghci --silent stack repl'
+      let s:haskell_term_ready = v:true
   endif
   
   if !s:fern_ready
@@ -51,8 +66,10 @@ autocmd BufReadPost * ++nested call MySetup()
 
 "Floaterm
 tnoremap <Leader><Esc> <C-\><C-n>
-let g:floaterm_autoinsert = v:false
+let g:floaterm_autoinsert = v:true
 let g:floaterm_keymap_toggle = "†"
+tnoremap <silent> <C-t> <C-\><C-n>:FloatermNext<cr>
+nnoremap <silent> <C-t> :FloatermNext<cr>
 let g:floaterm_wintype = "split"
 let g:floaterm_height = 15
 
@@ -157,3 +174,19 @@ let g:NERDToggleCheckAllLines = 1
 "Dashboard
 nmap <Leader>ss :<C-u>SessionSave<CR>
 nmap <Leader>sl :<C-u>SessionLoad<CR>
+let g:dashboard_custom_header = [
+\'⢀⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⣠⣤⣶⣶',
+\'⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⢰⣿⣿⣿⣿',
+\'⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⣀⣀⣾⣿⣿⣿⣿',
+\'⣿⣿⣿⣿⣿⡏⠉⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣿',
+\'⣿⣿⣿⣿⣿⣿⠀⠀⠀⠈⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠛⠉⠁⠀⣿',
+\'⣿⣿⣿⣿⣿⣿⣧⡀⠀⠀⠀⠀⠙⠿⠿⠿⠻⠿⠿⠟⠿⠛⠉⠀⠀⠀⠀⠀⣸⣿',
+\'⣿⣿⣿⣿⣿⣿⣿⣷⣄⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣿⣿',
+\'⣿⣿⣿⣿⣿⣿⣿⣿⣿⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⣴⣿⣿⣿⣿',
+\'⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⢰⣹⡆⠀⠀⠀⠀⠀⠀⣭⣷⠀⠀⠀⠸⣿⣿⣿⣿',
+\'⣿⣿⣿⣿⣿⣿⣿⣿⠃⠀⠀⠈⠉⠀⠀⠤⠄⠀⠀⠀⠉⠁⠀⠀⠀⠀⢿⣿⣿⣿',
+\'⣿⣿⣿⣿⣿⣿⣿⣿⢾⣿⣷⠀⠀⠀⠀⡠⠤⢄⠀⠀⠀⠠⣿⣿⣷⠀⢸⣿⣿⣿',
+\'⣿⣿⣿⣿⣿⣿⣿⣿⡀⠉⠀⠀⠀⠀⠀⢄⠀⢀⠀⠀⠀⠀⠉⠉⠁⠀⠀⣿⣿⣿',
+\'⣿⣿⣿⣿⣿⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣿',
+\'⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿',
+      \ ]
