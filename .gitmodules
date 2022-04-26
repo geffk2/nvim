@@ -55,3 +55,6 @@
 [submodule "bundle/nvim-scrollbar"]
 	path = bundle/nvim-scrollbar
 	url = https://github.com/petertriho/nvim-scrollbar.git
+[submodule "bundle/everforest"]
+	path = bundle/everforest
+	url = https://github.com/sainnhe/everforest.git

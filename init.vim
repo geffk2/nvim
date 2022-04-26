@@ -1,7 +1,6 @@
 syntax on
 filetype plugin indent on
 
-"colorscheme alduin
 
 set nocompatible
 set number
@@ -17,6 +16,14 @@ set background=dark
 set laststatus=0
 
 execute pathogen#infect()
+
+"colorscheme
+if has('termguicolors')
+  set termguicolors
+endif
+let g:everforest_background='hard'
+" let g:everforest_better_performance=1
+colorscheme everforest
 
 "snippets
 imap <C-l> <Plug>(coc-snippets-expand)
@@ -59,10 +66,17 @@ function! MySetup()
     execute "Fern %:h -drawer -stay"
     let s:fern_ready = v:true
   endif
-
 endfunction
+
+function! GhciReload()
+  if s:haskell_term_ready
+    execute 'FloatermSend --name=ghci :reload'
+  endif
+endfunction
+
 autocmd BufNewFile * ++nested call MySetup() 
 autocmd BufReadPost * ++nested call MySetup()
+autocmd BufWritePost *.hs ++nested call GhciReload()
 
 "Floaterm
 tnoremap <Leader><Esc> <C-\><C-n>
@@ -77,11 +91,9 @@ let g:floaterm_height = 15
 
 "Fern
 let g:fern#renderer = "nerdfont"
-" autocmd StdinReadPre * let s:std_in=1
-" autocmd VimEnter * ++nested Fern -drawer %:h | if argc() > 0 || exists("s:std_in") | wincmd p | endif
 
 "gruvbox
-autocmd vimenter * ++nested colorscheme gruvbox
+" autocmd vimenter * ++nested colorscheme gruvbox
 
 "Airline
 let g:airline_powerline_fonts = 1
@@ -94,7 +106,7 @@ let g:airline#extensions#xkblayout#enabled = 0
 nnoremap <leader>ga :Grepper<cr>
 nnoremap <leader>gb :Grepper -buffer<cr>
 
-let g:haskell_classic_highlighting = 1
+" let g:haskell_classic_highlighting = 1
 let g:haskell_indent_if = 3
 let g:haskell_indent_case = 2
 let g:haskell_indent_let = 4
@@ -113,6 +125,15 @@ nnoremap <leader>= :Tabularize /=<CR>
 nnoremap <leader>- :Tabularize /-><CR>
 nnoremap <leader>, :Tabularize /,<CR>
 nnoremap <leader># :Tabularize /#-}<CR>
+
+" haskell-vim
+let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
+let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
+let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
+let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
+let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
+let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
+let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
 
 " Yep CoC
 
