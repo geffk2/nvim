@@ -17,6 +17,18 @@ set laststatus=0
 
 execute pathogen#infect()
 
+autocmd VimLeave * execute "FloatermSend --name=ghci :q"
+
+"spelling
+setlocal spell
+set spelllang=en_gb
+inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
+
+"vimtex
+let g:vimtex_view_method = 'zathura'
+let g:tex_flavor='latex'
+let g:vimtex_quickfix_mode=0
+
 "colorscheme
 if has('termguicolors')
   set termguicolors
@@ -26,12 +38,12 @@ let g:everforest_background='hard'
 colorscheme everforest
 
 "snippets
-imap <C-l> <Plug>(coc-snippets-expand)
-vmap <C-j> <Plug>(coc-snippets-select)
-let g:coc_snippet_prev = '<c-k>'
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 "scrollbar 
-lua require("scrollbar").setup({handle={highlight="CursorColumn"}})
+lua require("scrollbar").setup()
 
 "Make Cmd-S work
 noremap! <C-s> <esc>:w<cr>
@@ -107,6 +119,7 @@ nnoremap <leader>ga :Grepper<cr>
 nnoremap <leader>gb :Grepper -buffer<cr>
 
 " let g:haskell_classic_highlighting = 1
+" tabular and some haskel stuff
 let g:haskell_indent_if = 3
 let g:haskell_indent_case = 2
 let g:haskell_indent_let = 4
@@ -165,31 +178,15 @@ inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<CR>"
 autocmd CursorHold * silent call CocActionAsync('highlight')
 autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 
-" Create default mappings
+"nerdcommenter
 let g:NERDCreateDefaultMappings = 1
-
-" Add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
-
-" Use compact syntax for prettified multi-line comments
 let g:NERDCompactSexyComs = 1
-
-" Align line-wise comment delimiters flush left instead of following code indentation
 let g:NERDDefaultAlign = 'left'
-
-" Set a language to use its alternate delimiters by default
 let g:NERDAltDelims_java = 1
-
-" Add your own custom formats or override the defaults
 let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' }, 'vim': {'left': '"'}}
-
-" Allow commenting and inverting empty lines (useful when commenting a region)
 let g:NERDCommentEmptyLines = 1
-
-" Enable trimming of trailing whitespace when uncommenting
 let g:NERDTrimTrailingWhitespace = 1
-
-" Enable NERDCommenterToggle to check all selected lines is commented or not 
 let g:NERDToggleCheckAllLines = 1
 
 "Dashboard
