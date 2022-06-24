@@ -70,3 +70,15 @@
 [submodule "bundle/ultisnips"]
 	path = bundle/ultisnips
 	url = https://github.com/SirVer/ultisnips.git
+[submodule "bundle/fzf-hoogle.vim"]
+	path = bundle/fzf-hoogle.vim
+	url = https://github.com/monkoose/fzf-hoogle.vim.git
+[submodule "bundle/fzf.vim"]
+	path = bundle/fzf.vim
+	url = https://github.com/junegunn/fzf.vim.git
+[submodule "bundle/fzf"]
+	path = bundle/fzf
+	url = https://github.com/junegunn/fzf.git
+[submodule "bundle/vim-smoothie"]
+	path = bundle/vim-smoothie
+	url = https://github.com/psliwka/vim-smoothie.git

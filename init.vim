@@ -15,9 +15,26 @@ set softtabstop=2
 set background=dark
 set laststatus=0
 
+nnoremap <SPACE> <Nop>
+let mapleader = " "
 execute pathogen#infect()
 
-autocmd VimLeave * execute "FloatermSend --name=ghci :q"
+" Easier buffer switching
+set wildchar=<Tab> wildmenu wildmode=full
+set wildcharm=<C-Z>
+nnoremap <leader>b :b <C-Z>
+
+" Remap for do codeAction of selected region
+function! s:cocActionsOpenFromSelected(type) abort
+  execute 'CocCommand actions.open ' . a:type
+endfunction
+xmap <silent> <leader>a :<C-u>execute 'CocCommand actions.open ' . visualmode()<CR>
+nmap <silent> <leader>a :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<CR>g@
+
+augroup HoogleMaps
+  autocmd!
+  autocmd FileType haskell nnoremap <buffer> <space>hh :Hoogle <C-r><C-w><CR>
+augroup END
 
 "spelling
 setlocal spell
@@ -50,9 +67,7 @@ noremap! <C-s> <esc>:w<cr>
 nnoremap <C-s> :w<cr>
 ""Set up fern and terminal
 
-let s:term_ready = v:false
 let s:fern_ready = v:false
-let s:haskell_term_ready = v:false
 function! MySetup()
   if &filetype == "dashboard"
     return
@@ -62,50 +77,17 @@ function! MySetup()
     let s:fern_ready = v:true
   endif
 
-  execute 'cd ' . expand("%:p:h")
-
-  if !s:term_ready
-    execute "FloatermNew --name=zsh --silent"
-    let s:term_ready = v:true
-  endif
-
-  if !s:haskell_term_ready && &filetype == "haskell"
-      execute 'FloatermNew --name=ghci --silent stack repl'
-      let s:haskell_term_ready = v:true
-  endif
-  
   if !s:fern_ready
     execute "Fern %:h -drawer -stay"
     let s:fern_ready = v:true
   endif
 endfunction
 
-function! GhciReload()
-  if s:haskell_term_ready
-    execute 'FloatermSend --name=ghci :reload'
-  endif
-endfunction
-
 autocmd BufNewFile * ++nested call MySetup() 
 autocmd BufReadPost * ++nested call MySetup()
-autocmd BufWritePost *.hs ++nested call GhciReload()
-
-"Floaterm
-tnoremap <Leader><Esc> <C-\><C-n>
-let g:floaterm_autoinsert = v:true
-let g:floaterm_keymap_toggle = "†"
-tnoremap <silent> <C-t> <C-\><C-n>:FloatermNext<cr>
-nnoremap <silent> <C-t> :FloatermNext<cr>
-let g:floaterm_wintype = "split"
-let g:floaterm_height = 15
-
-" autocmd vimenter * call SetupFloaterm()
 
 "Fern
 let g:fern#renderer = "nerdfont"
-
-"gruvbox
-" autocmd vimenter * ++nested colorscheme gruvbox
 
 "Airline
 let g:airline_powerline_fonts = 1
@@ -132,21 +114,20 @@ let g:haskell_indent_guard = 2
 let g:haskell_indent_case_alternative = 1
 let g:cabal_indent_section = 2
 
-let g:hdevtools_stack = 1
-
 nnoremap <leader>= :Tabularize /=<CR>
 nnoremap <leader>- :Tabularize /-><CR>
 nnoremap <leader>, :Tabularize /,<CR>
 nnoremap <leader># :Tabularize /#-}<CR>
+nnoremap <leader>: :Tabularize /:-}<CR>
 
 " haskell-vim
-let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
-let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
-let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
+let g:haskell_enable_quantification   = 1   " to enable highlighting of `forall`
+let g:haskell_enable_recursivedo      = 1      " to enable highlighting of `mdo` and `rec`
+let g:haskell_enable_arrowsyntax      = 1      " to enable highlighting of `proc`
 let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
-let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
-let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
-let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
+let g:haskell_enable_typeroles        = 1        " to enable highlighting of type roles
+let g:haskell_enable_static_pointers  = 1  " to enable highlighting of `static`
+let g:haskell_backpack                = 1                " to enable highlighting of backpack keywords
 
 " Yep CoC
 
@@ -178,13 +159,21 @@ inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<CR>"
 autocmd CursorHold * silent call CocActionAsync('highlight')
 autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
 "nerdcommenter
 let g:NERDCreateDefaultMappings = 1
 let g:NERDSpaceDelims = 1
 let g:NERDCompactSexyComs = 1
 let g:NERDDefaultAlign = 'left'
-let g:NERDAltDelims_java = 1
-let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' }, 'vim': {'left': '"'}}
 let g:NERDCommentEmptyLines = 1
 let g:NERDTrimTrailingWhitespace = 1
 let g:NERDToggleCheckAllLines = 1
