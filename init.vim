@@ -1,7 +1,6 @@
 syntax on
 filetype plugin indent on
 
-
 set nocompatible
 set number
 set showmode
@@ -15,14 +14,19 @@ set softtabstop=2
 set background=dark
 set laststatus=0
 
-nnoremap <SPACE> <Nop>
-let mapleader = " "
+" nnoremap <SPACE> <Nop>
+let mapleader = ","
 execute pathogen#infect()
 
 " Easier buffer switching
 set wildchar=<Tab> wildmenu wildmode=full
 set wildcharm=<C-Z>
 nnoremap <leader>b :b <C-Z>
+
+let g:tmux_navigator_save_on_switch = 2
+
+" Splits
+nnoremap vv :vsplit<cr>
 
 " Remap for do codeAction of selected region
 function! s:cocActionsOpenFromSelected(type) abort
@@ -33,7 +37,12 @@ nmap <silent> <leader>a :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<C
 
 augroup HoogleMaps
   autocmd!
-  autocmd FileType haskell nnoremap <buffer> <space>hh :Hoogle <C-r><C-w><CR>
+  autocmd FileType haskell nnoremap <buffer> <leader>hh :Hoogle <C-r><C-w><CR>
+augroup END
+
+augroup highlight_yank
+    autocmd!
+    au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=700}
 augroup END
 
 "spelling
@@ -65,26 +74,17 @@ lua require("scrollbar").setup()
 "Make Cmd-S work
 noremap! <C-s> <esc>:w<cr>
 nnoremap <C-s> :w<cr>
-""Set up fern and terminal
 
-let s:fern_ready = v:false
-function! MySetup()
-  if &filetype == "dashboard"
-    return
-  endif
+""Set up fern 
+map <leader>ff :Fern %:h -drawer -stay -toggle<cr>
 
-  if &filetype == "fern"
-    let s:fern_ready = v:true
-  endif
-
-  if !s:fern_ready
-    execute "Fern %:h -drawer -stay"
-    let s:fern_ready = v:true
-  endif
+function! s:init_fern() abort
 endfunction
 
-autocmd BufNewFile * ++nested call MySetup() 
-autocmd BufReadPost * ++nested call MySetup()
+augroup fern-custom
+  autocmd! *
+  autocmd FileType fern call s:init_fern()
+augroup END
 
 "Fern
 let g:fern#renderer = "nerdfont"
@@ -168,6 +168,7 @@ function! s:show_documentation()
     call CocAction('doHover')
   endif
 endfunction
+let g:vim_svelte_plugin_use_typescript = 1
 
 "nerdcommenter
 let g:NERDCreateDefaultMappings = 1
