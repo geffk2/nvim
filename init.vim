@@ -16,7 +16,13 @@ set laststatus=0
 
 " nnoremap <SPACE> <Nop>
 let mapleader = ","
-execute pathogen#infect()
+
+lua require('plugins')
+
+augroup packer_user_config
+  autocmd!
+  autocmd BufWritePost plugins.lua source <afile> | PackerCompile
+augroup end
 
 " Easier buffer switching
 set wildchar=<Tab> wildmenu wildmode=full
@@ -24,6 +30,9 @@ set wildcharm=<C-Z>
 nnoremap <leader>b :b <C-Z>
 
 let g:tmux_navigator_save_on_switch = 2
+
+" Nabla
+nnoremap <leader>p :lua require("nabla").popup()<CR>
 
 " Splits
 nnoremap vv :vsplit<cr>
@@ -76,7 +85,7 @@ noremap! <C-s> <esc>:w<cr>
 nnoremap <C-s> :w<cr>
 
 ""Set up fern 
-map <leader>ff :Fern %:h -drawer -stay -toggle<cr>
+map <leader>tt :Fern %:h -drawer -stay -toggle<cr>
 
 function! s:init_fern() abort
 endfunction
@@ -96,41 +105,21 @@ let g:airline_section_z = "\ue0a1:%l/%L Col:%c"
 let g:Powerline_symbols='unicode'
 let g:airline#extensions#xkblayout#enabled = 0
 
-"Use Grepper
-nnoremap <leader>ga :Grepper<cr>
-nnoremap <leader>gb :Grepper -buffer<cr>
 
-" let g:haskell_classic_highlighting = 1
-" tabular and some haskel stuff
-let g:haskell_indent_if = 3
-let g:haskell_indent_case = 2
-let g:haskell_indent_let = 4
-let g:haskell_indent_where = 6
-let g:haskell_indent_before_where = 2
-let g:haskell_indent_after_bare_where = 2
-let g:haskell_indent_do = 3
-let g:haskell_indent_in = 1
-let g:haskell_indent_guard = 2
-let g:haskell_indent_case_alternative = 1
-let g:cabal_indent_section = 2
+" Telescope
+nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 
+" Tabular
 nnoremap <leader>= :Tabularize /=<CR>
 nnoremap <leader>- :Tabularize /-><CR>
 nnoremap <leader>, :Tabularize /,<CR>
 nnoremap <leader># :Tabularize /#-}<CR>
 nnoremap <leader>: :Tabularize /:-}<CR>
 
-" haskell-vim
-let g:haskell_enable_quantification   = 1   " to enable highlighting of `forall`
-let g:haskell_enable_recursivedo      = 1      " to enable highlighting of `mdo` and `rec`
-let g:haskell_enable_arrowsyntax      = 1      " to enable highlighting of `proc`
-let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
-let g:haskell_enable_typeroles        = 1        " to enable highlighting of type roles
-let g:haskell_enable_static_pointers  = 1  " to enable highlighting of `static`
-let g:haskell_backpack                = 1                " to enable highlighting of backpack keywords
-
 " Yep CoC
-
 map <Leader>ggd <Plug>(coc-definition)
 map <Leader>ggi <Plug>(coc-implementation)
 map <Leader>ggt <Plug>(coc-type-definition)
