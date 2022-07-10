@@ -127,12 +127,17 @@ return require('packer').startup(function(use)
 
   use 'sainnhe/everforest'
   use {
-    'lambdalisue/fern.vim',
-    requires = {
-      'lambdalisue/fern-hijack.vim',
-      'lambdalisue/fern-renderer-nerdfont.vim',
-      'lambdalisue/nerdfont.vim',
-      'antoinemadec/FixCursorHold.nvim'
-    }
+    'ms-jpq/chadtree',
+    branch = 'chad',
+    run = ':CHADdeps'
   }
+  -- use {
+  --   'lambdalisue/fern.vim',
+  --   requires = {
+  --     'lambdalisue/fern-hijack.vim',
+  --     'lambdalisue/fern-renderer-nerdfont.vim',
+  --     'lambdalisue/nerdfont.vim',
+  --     'antoinemadec/FixCursorHold.nvim'
+  --   }
+  -- }
 end)

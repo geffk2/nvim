@@ -75,13 +75,8 @@ _G.packer_plugins = {
     path = "/Users/katja/.local/share/nvim/site/pack/packer/start/Comment.nvim",
     url = "https://github.com/numToStr/Comment.nvim"
   },
-  ["FixCursorHold.nvim"] = {
-    loaded = true,
-    path = "/Users/katja/.local/share/nvim/site/pack/packer/start/FixCursorHold.nvim",
-    url = "https://github.com/antoinemadec/FixCursorHold.nvim"
-  },
   ["JABS.nvim"] = {
-    config = { "\27LJ\2\nX\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\3\vheight\3\n\nwidth\0032\vborder\vshadow\nsetup\tjabs\frequire\0" },
+    config = { "\27LJ\2\nX\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\3\nwidth\0032\vborder\vshadow\vheight\3\n\nsetup\tjabs\frequire\0" },
     loaded = true,
     path = "/Users/katja/.local/share/nvim/site/pack/packer/start/JABS.nvim",
     url = "https://github.com/matbme/JABS.nvim"
@@ -95,6 +90,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/katja/.local/share/nvim/site/pack/packer/start/auto-pairs",
     url = "https://github.com/jiangmiao/auto-pairs"
+  },
+  chadtree = {
+    loaded = true,
+    path = "/Users/katja/.local/share/nvim/site/pack/packer/start/chadtree",
+    url = "https://github.com/ms-jpq/chadtree"
   },
   ["coq.artifacts"] = {
     loaded = true,
@@ -111,21 +111,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/katja/.local/share/nvim/site/pack/packer/start/everforest",
     url = "https://github.com/sainnhe/everforest"
-  },
-  ["fern-hijack.vim"] = {
-    loaded = true,
-    path = "/Users/katja/.local/share/nvim/site/pack/packer/start/fern-hijack.vim",
-    url = "https://github.com/lambdalisue/fern-hijack.vim"
-  },
-  ["fern-renderer-nerdfont.vim"] = {
-    loaded = true,
-    path = "/Users/katja/.local/share/nvim/site/pack/packer/start/fern-renderer-nerdfont.vim",
-    url = "https://github.com/lambdalisue/fern-renderer-nerdfont.vim"
-  },
-  ["fern.vim"] = {
-    loaded = true,
-    path = "/Users/katja/.local/share/nvim/site/pack/packer/start/fern.vim",
-    url = "https://github.com/lambdalisue/fern.vim"
   },
   ["fidget.nvim"] = {
     config = { "\27LJ\2\n8\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\vfidget\frequire\0" },
@@ -168,11 +153,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/katja/.local/share/nvim/site/pack/packer/start/neoformat",
     url = "https://github.com/sbdchd/neoformat"
-  },
-  ["nerdfont.vim"] = {
-    loaded = true,
-    path = "/Users/katja/.local/share/nvim/site/pack/packer/start/nerdfont.vim",
-    url = "https://github.com/lambdalisue/nerdfont.vim"
   },
   ["nvim-code-action-menu"] = {
     loaded = true,
@@ -265,31 +245,31 @@ time([[Setup for coq_nvim]], false)
 time([[packadd for coq_nvim]], true)
 vim.cmd [[packadd coq_nvim]]
 time([[packadd for coq_nvim]], false)
--- Config for: leap.nvim
-time([[Config for leap.nvim]], true)
-try_loadstring("\27LJ\2\n@\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\24set_default_keymaps\tleap\frequire\0", "config", "leap.nvim")
-time([[Config for leap.nvim]], false)
 -- Config for: fidget.nvim
 time([[Config for fidget.nvim]], true)
 try_loadstring("\27LJ\2\n8\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\vfidget\frequire\0", "config", "fidget.nvim")
 time([[Config for fidget.nvim]], false)
 -- Config for: JABS.nvim
 time([[Config for JABS.nvim]], true)
-try_loadstring("\27LJ\2\nX\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\3\vheight\3\n\nwidth\0032\vborder\vshadow\nsetup\tjabs\frequire\0", "config", "JABS.nvim")
+try_loadstring("\27LJ\2\nX\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\3\nwidth\0032\vborder\vshadow\vheight\3\n\nsetup\tjabs\frequire\0", "config", "JABS.nvim")
 time([[Config for JABS.nvim]], false)
--- Config for: Comment.nvim
-time([[Config for Comment.nvim]], true)
-try_loadstring("\27LJ\2\n5\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\fComment\frequire\0", "config", "Comment.nvim")
-time([[Config for Comment.nvim]], false)
 -- Config for: nvim-treesitter
 time([[Config for nvim-treesitter]], true)
 try_loadstring("\27LJ\2\nº\1\0\0\5\0\n\0\r6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0005\3\4\0=\3\5\0025\3\6\0005\4\a\0=\4\b\3=\3\t\2B\0\2\1K\0\1\0\14highlight\fdisable\1\2\0\0\bvim\1\0\1\venable\2\19ignore_install\1\3\0\0\6d\vphpdoc\1\0\1\21ensure_installed\ball\nsetup\28nvim-treesitter.configs\frequire\0", "config", "nvim-treesitter")
 time([[Config for nvim-treesitter]], false)
+-- Config for: Comment.nvim
+time([[Config for Comment.nvim]], true)
+try_loadstring("\27LJ\2\n5\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\fComment\frequire\0", "config", "Comment.nvim")
+time([[Config for Comment.nvim]], false)
+-- Config for: leap.nvim
+time([[Config for leap.nvim]], true)
+try_loadstring("\27LJ\2\n@\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\24set_default_keymaps\tleap\frequire\0", "config", "leap.nvim")
+time([[Config for leap.nvim]], false)
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
 time([[Defining lazy-load filetype autocommands]], true)
-vim.cmd [[au FileType md ++once lua require("packer.load")({'mkdnflow.nvim', 'nabla.nvim'}, { ft = "md" }, _G.packer_plugins)]]
+vim.cmd [[au FileType md ++once lua require("packer.load")({'nabla.nvim', 'mkdnflow.nvim'}, { ft = "md" }, _G.packer_plugins)]]
 time([[Defining lazy-load filetype autocommands]], false)
 vim.cmd("augroup END")
 if should_profile then save_profiles() end

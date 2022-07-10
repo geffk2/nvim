@@ -58,9 +58,16 @@ require 'scrollbar'.setup()
 
 vim.keymap.set({'n', 'i'}, '<c-s>', '<esc>:w<cr>')
 
-vim.keymap.set('n', '<leader>tt', ':Fern %:h -drawer -right -stay -toggle<cr>')
-
-vim.g['fern#renderer'] = 'nerdfont'
+vim.keymap.set('n', '<leader>tt', ':CHADopen --nofocus<cr>')
+local chadtree_settings = {
+  view = {
+    open_direction = "right"
+  },
+  theme = {
+    text_colour_set = "solarized_dark"
+  }
+}
+vim.api.nvim_set_var('chadtree_settings', chadtree_settings)
 
 require 'lualine'.setup {
   options = {
