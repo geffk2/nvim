@@ -50,15 +50,13 @@ local servers = {
   svelte = {},
   tailwindcss = {},
 }
-
-local coq = require 'coq'
 -- local lsp = require 'lspconfig'
-local lsp_defaults = coq.lsp_ensure_capabilities({
+local lsp_defaults = {
   flags = {
     debounce_text_changes = 150,
   },
   on_attach = on_attach
-})
+}
 
 local lspis = require 'nvim-lsp-installer.servers'
 local function install_servers(servs, options)
@@ -79,6 +77,10 @@ local function install_servers(servs, options)
   end
 end
 
-install_servers(servers, lsp_defaults)
+vim.schedule(function()
+  require("packer").loader("coq_nvim coq.artifacts")
+  local opts = require("coq")().lsp_ensure_capabilities(lsp_defaults)
+  install_servers(servers, opts)
+end)
 
 

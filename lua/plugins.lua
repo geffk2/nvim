@@ -45,7 +45,30 @@ return require('packer').startup(function(use)
       'ms-jpq/coq.artifacts',
     },
     branch = 'coq',
-    run = ':COQnow',
+    run = ':COQdeps',
+    setup = function ()
+      vim.g.coq_settings = {
+        auto_start = 'shut-up',
+        keymap = {
+          jump_to_mark = "<c-,>"
+        },
+        clients = {
+          paths = {
+            path_seps = {
+              "/"
+            }
+          },
+          buffers = {
+            match_syms = true
+          }
+        },
+        display = {
+          ghost_text = {
+            enabled = true
+          }
+        }
+      }
+    end,
   }
   use 'sbdchd/neoformat'
   use 'jiangmiao/auto-pairs'

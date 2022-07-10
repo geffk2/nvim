@@ -81,7 +81,7 @@ _G.packer_plugins = {
     url = "https://github.com/antoinemadec/FixCursorHold.nvim"
   },
   ["JABS.nvim"] = {
-    config = { "\27LJ\2\nX\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\3\vborder\vshadow\vheight\3\n\nwidth\0032\nsetup\tjabs\frequire\0" },
+    config = { "\27LJ\2\nX\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\3\vheight\3\n\nwidth\0032\vborder\vshadow\nsetup\tjabs\frequire\0" },
     loaded = true,
     path = "/Users/katja/.local/share/nvim/site/pack/packer/start/JABS.nvim",
     url = "https://github.com/matbme/JABS.nvim"
@@ -103,7 +103,8 @@ _G.packer_plugins = {
   },
   coq_nvim = {
     loaded = true,
-    path = "/Users/katja/.local/share/nvim/site/pack/packer/start/coq_nvim",
+    needs_bufread = true,
+    path = "/Users/katja/.local/share/nvim/site/pack/packer/opt/coq_nvim",
     url = "https://github.com/ms-jpq/coq_nvim"
   },
   everforest = {
@@ -257,22 +258,29 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
+-- Setup for: coq_nvim
+time([[Setup for coq_nvim]], true)
+try_loadstring("\27LJ\2\nö\1\0\0\5\0\18\0\0196\0\0\0009\0\1\0005\1\3\0005\2\4\0=\2\5\0015\2\t\0005\3\a\0005\4\6\0=\4\b\3=\3\n\0025\3\v\0=\3\f\2=\2\r\0015\2\15\0005\3\14\0=\3\16\2=\2\17\1=\1\2\0K\0\1\0\fdisplay\15ghost_text\1\0\0\1\0\1\fenabled\2\fclients\fbuffers\1\0\1\15match_syms\2\npaths\1\0\0\14path_seps\1\0\0\1\2\0\0\6/\vkeymap\1\0\1\17jump_to_mark\n<c-,>\1\0\1\15auto_start\fshut-up\17coq_settings\6g\bvim\0", "setup", "coq_nvim")
+time([[Setup for coq_nvim]], false)
+time([[packadd for coq_nvim]], true)
+vim.cmd [[packadd coq_nvim]]
+time([[packadd for coq_nvim]], false)
+-- Config for: leap.nvim
+time([[Config for leap.nvim]], true)
+try_loadstring("\27LJ\2\n@\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\24set_default_keymaps\tleap\frequire\0", "config", "leap.nvim")
+time([[Config for leap.nvim]], false)
+-- Config for: fidget.nvim
+time([[Config for fidget.nvim]], true)
+try_loadstring("\27LJ\2\n8\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\vfidget\frequire\0", "config", "fidget.nvim")
+time([[Config for fidget.nvim]], false)
 -- Config for: JABS.nvim
 time([[Config for JABS.nvim]], true)
-try_loadstring("\27LJ\2\nX\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\3\vborder\vshadow\vheight\3\n\nwidth\0032\nsetup\tjabs\frequire\0", "config", "JABS.nvim")
+try_loadstring("\27LJ\2\nX\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\3\vheight\3\n\nwidth\0032\vborder\vshadow\nsetup\tjabs\frequire\0", "config", "JABS.nvim")
 time([[Config for JABS.nvim]], false)
 -- Config for: Comment.nvim
 time([[Config for Comment.nvim]], true)
 try_loadstring("\27LJ\2\n5\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\fComment\frequire\0", "config", "Comment.nvim")
 time([[Config for Comment.nvim]], false)
--- Config for: fidget.nvim
-time([[Config for fidget.nvim]], true)
-try_loadstring("\27LJ\2\n8\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\vfidget\frequire\0", "config", "fidget.nvim")
-time([[Config for fidget.nvim]], false)
--- Config for: leap.nvim
-time([[Config for leap.nvim]], true)
-try_loadstring("\27LJ\2\n@\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\24set_default_keymaps\tleap\frequire\0", "config", "leap.nvim")
-time([[Config for leap.nvim]], false)
 -- Config for: nvim-treesitter
 time([[Config for nvim-treesitter]], true)
 try_loadstring("\27LJ\2\nº\1\0\0\5\0\n\0\r6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0005\3\4\0=\3\5\0025\3\6\0005\4\a\0=\4\b\3=\3\t\2B\0\2\1K\0\1\0\14highlight\fdisable\1\2\0\0\bvim\1\0\1\venable\2\19ignore_install\1\3\0\0\6d\vphpdoc\1\0\1\21ensure_installed\ball\nsetup\28nvim-treesitter.configs\frequire\0", "config", "nvim-treesitter")

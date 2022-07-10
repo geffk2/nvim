@@ -80,11 +80,6 @@ vim.keymap.set('n', '<leader>,', ':Tabularize /,<cr>')
 vim.keymap.set('n', '<leader>#', ':Tabularize /#<cr>')
 vim.keymap.set('n', '<leader>:', ':Tabularize /:<cr>')
 
-vim.g.coq_settings = {}
-vim.g.coq_settings['keymap.bigger_preview'] = nil
-vim.g.coq_settings['keymap.jump_to_mark'] = nil
-vim.g.coq_settings['auto_start'] = 'shut-up'
-
 vim.keymap.set('n', '<leader>ca', ':CodeActionMenu<cr>')
 
 vim.g.NERDCreateDefaultMappings = 1
