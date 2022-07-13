@@ -8,6 +8,38 @@ return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim' -- this is essential.
 
   use {
+    'pwntester/octo.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope.nvim',
+      'kyazdani42/nvim-web-devicons',
+    },
+    config = function ()
+      require"octo".setup()
+    end
+  }
+  use 'simrat39/symbols-outline.nvim'
+  use {
+    "folke/trouble.nvim",
+    requires = "kyazdani42/nvim-web-devicons",
+    config = function()
+      require("trouble").setup {
+      }
+    end
+  }
+  use {
+    'folke/lsp-colors.nvim',
+    config = function()
+      require("lsp-colors").setup()
+    end
+  }
+  use {
+    'norcalli/nvim-colorizer.lua',
+    config = function()
+      require 'colorizer'.setup()
+    end
+  }
+  use {
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate',
     config = function ()
@@ -75,7 +107,12 @@ return require('packer').startup(function(use)
   use {
     'numToStr/Comment.nvim',
     config = function()
-      require 'Comment'.setup()
+      require 'Comment'.setup({
+        mappings = {
+          extra = true,
+          basic = true
+        }
+      })
     end
   }
   use 'godlygeek/tabular'
@@ -83,7 +120,42 @@ return require('packer').startup(function(use)
   use 'christoomey/vim-tmux-navigator'
   use {
     'nvim-telescope/telescope.nvim',
-    requires = { {'nvim-lua/plenary.nvim'} }
+    requires = { {'nvim-lua/plenary.nvim'} },
+    config = function()
+      require 'telescope'.setup {
+        defaults = {
+          prompt_prefix = "  \u{f422}  ",
+          initial_mode = "insert",
+          selection_strategy = "reset",
+          sorting_strategy = "ascending",
+          layout_strategy = "horizontal",
+          layout_config = {
+            horizontal = {
+              prompt_position = "top",
+              preview_width = 0.55,
+              results_width = 0.8,
+            },
+            width = 0.87,
+            height = 0.80,
+            preview_cutoff = 120,
+          },
+          file_sorter = require("telescope.sorters").get_fuzzy_file,
+          file_ignore_patterns = { "node_modules" },
+          generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
+          path_display = { "truncate" },
+          border = {},
+          borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+          color_devicons = true,
+          set_env = { ["COLORTERM"] = "truecolor" }, -- default = nil,
+          file_previewer = require("telescope.previewers").vim_buffer_cat.new,
+          grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
+          qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
+          mappings = {
+            n = { ["q"] = require("telescope.actions").close },
+          },
+        }
+      }
+    end
   }
   use {
     'ggandor/leap.nvim',
@@ -127,17 +199,20 @@ return require('packer').startup(function(use)
 
   use 'sainnhe/everforest'
   use {
-    'ms-jpq/chadtree',
-    branch = 'chad',
-    run = ':CHADdeps'
+    'kyazdani42/nvim-tree.lua',
+    requires = {
+      'kyazdani42/nvim-web-devicons', -- optional, for file icons
+    },
+    tag = 'nightly',
+    config = function()
+      require 'nvim-tree'.setup {
+        view = {
+          side = "right",
+          width = 40,
+        }
+      }
+    end
   }
-  -- use {
-  --   'lambdalisue/fern.vim',
-  --   requires = {
-  --     'lambdalisue/fern-hijack.vim',
-  --     'lambdalisue/fern-renderer-nerdfont.vim',
-  --     'lambdalisue/nerdfont.vim',
-  --     'antoinemadec/FixCursorHold.nvim'
-  --   }
-  -- }
 end)
+
+

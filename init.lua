@@ -7,7 +7,12 @@ vim.api.nvim_create_autocmd('BufWritePost', {
   group = packer_group,
   pattern = 'plugins.lua',
 })
+vim.api.nvim_create_autocmd('BufWritePost', {
+  command = 'source <afile>',
+  pattern = 'init.lua'
+})
 
+vim.o.termguicolors = true
 vim.o.number = true
 vim.o.showmode = true
 vim.o.smartcase = true
@@ -20,7 +25,6 @@ vim.o.softtabstop = 2
 vim.o.background = 'dark'
 vim.o.laststatus = 2
 vim.o.mouse = 'a'
-
 vim.g.mapleader = ','
 
 vim.keymap.set('n', '<leader>b', ':JABSOpen<cr>')
@@ -50,24 +54,14 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
-vim.o.termguicolors = true
 vim.g.everforest_background = 'hard'
+vim.g.everforest_diagnostic_virtual_text = 'colored'
 vim.cmd 'colorscheme everforest'
 
+
 require 'scrollbar'.setup()
-
 vim.keymap.set({'n', 'i'}, '<c-s>', '<esc>:w<cr>')
-
-vim.keymap.set('n', '<leader>tt', ':CHADopen --nofocus<cr>')
-local chadtree_settings = {
-  view = {
-    open_direction = "right"
-  },
-  theme = {
-    text_colour_set = "solarized_dark"
-  }
-}
-vim.api.nvim_set_var('chadtree_settings', chadtree_settings)
+vim.keymap.set('n', '<leader>tt', '<cmd>NvimTreeToggle<cr>')
 
 require 'lualine'.setup {
   options = {
@@ -76,24 +70,26 @@ require 'lualine'.setup {
 }
 
 local tele = require 'telescope.builtin'
-vim.keymap.set('n', '<leader>ff', tele.find_files)
-vim.keymap.set('n', '<leader>fg', tele.live_grep)
-vim.keymap.set('n', '<leader>fb', tele.buffers)
-vim.keymap.set('n', '<leader>fh', tele.help_tags)
+vim.keymap.set('n' , '<leader>ff' , tele.find_files)
+vim.keymap.set('n' , '<leader>fg' , tele.live_grep)
+vim.keymap.set('n' , '<leader>fb' , tele.buffers)
+vim.keymap.set('n' , '<leader>fh' , tele.help_tags)
+vim.keymap.set('n' , '<leader>fm' , tele.man_pages)
 
-vim.keymap.set('n', '<leader>=', ':Tabularize /=<cr>')
-vim.keymap.set('n', '<leader>-', ':Tabularize /-<cr>')
-vim.keymap.set('n', '<leader>,', ':Tabularize /,<cr>')
-vim.keymap.set('n', '<leader>#', ':Tabularize /#<cr>')
-vim.keymap.set('n', '<leader>:', ':Tabularize /:<cr>')
+vim.keymap.set('n' , '<leader>=' , ':Tabularize /=<cr>')
+vim.keymap.set('n' , '<leader>-' , ':Tabularize /-<cr>')
+vim.keymap.set('n' , '<leader>,' , ':Tabularize /,<cr>')
+vim.keymap.set('n' , '<leader>#' , ':Tabularize /#<cr>')
+vim.keymap.set('n' , '<leader>:' , ':Tabularize /:<cr>')
 
 vim.keymap.set('n', '<leader>ca', ':CodeActionMenu<cr>')
 
-vim.g.NERDCreateDefaultMappings = 1
-vim.g.NERDSpaceDelims = 1
-vim.g.NERDCompactSexyComs = 1
-vim.g.NERDDefaultAlign = 'left'
-vim.g.NERDCommentEmptyLines = 1
-vim.g.NERDTrimTrailingWhitespace = 1
-vim.g.NERDToggleCheckAllLines = 1
+-- Lua
+vim.api.nvim_set_keymap("n" , "<leader>xx" , "<cmd>TroubleToggle<cr>"                       , {silent = true , noremap = true})
+vim.api.nvim_set_keymap("n" , "<leader>xw" , "<cmd>TroubleToggle workspace_diagnostics<cr>" , {silent = true , noremap = true})
+vim.api.nvim_set_keymap("n" , "<leader>xd" , "<cmd>TroubleToggle document_diagnostics<cr>"  , {silent = true , noremap = true})
+vim.api.nvim_set_keymap("n" , "<leader>xl" , "<cmd>TroubleToggle loclist<cr>"               , {silent = true , noremap = true})
+vim.api.nvim_set_keymap("n" , "<leader>xq" , "<cmd>TroubleToggle quickfix<cr>"              , {silent = true , noremap = true})
+vim.api.nvim_set_keymap("n" , "gR"         , "<cmd>TroubleToggle lsp_references<cr>"        , {silent = true , noremap = true})
 
+vim.api.nvim_set_keymap("n", '<leader>ss', '<cmd>SymbolsOutline<cr>', {silent = true, noremap = true})
