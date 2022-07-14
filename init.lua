@@ -37,11 +37,11 @@ vim.api.nvim_create_autocmd('FileType', {
   group = files_group,
   pattern = 'markdown',
 })
-vim.api.nvim_create_autocmd('FIleType', {
-  command = '%!jq .',
-  group = files_group,
-  pattern = 'json'
-})
+-- vim.api.nvim_create_autocmd('FIleType', {
+--   command = '%!jq .',
+--   group = files_group,
+--   pattern = 'json'
+-- })
 
 vim.keymap.set('n', 'vv', ':vs<cr>')
 
@@ -72,7 +72,7 @@ require 'lualine'.setup {
 local tele = require 'telescope.builtin'
 vim.keymap.set('n' , '<leader>ff' , tele.find_files)
 vim.keymap.set('n' , '<leader>fg' , tele.live_grep)
-vim.keymap.set('n' , '<leader>fb' , tele.buffers)
+-- vim.keymap.set('n' , '<leader>fb' , tele.buffers)
 vim.keymap.set('n' , '<leader>fh' , tele.help_tags)
 vim.keymap.set('n' , '<leader>fm' , tele.man_pages)
 
@@ -93,3 +93,4 @@ vim.api.nvim_set_keymap("n" , "<leader>xq" , "<cmd>TroubleToggle quickfix<cr>"  
 vim.api.nvim_set_keymap("n" , "gR"         , "<cmd>TroubleToggle lsp_references<cr>"        , {silent = true , noremap = true})
 
 vim.api.nvim_set_keymap("n", '<leader>ss', '<cmd>SymbolsOutline<cr>', {silent = true, noremap = true})
+

@@ -200,8 +200,9 @@ return require('packer').startup(function(use)
   use 'sainnhe/everforest'
   use {
     'kyazdani42/nvim-tree.lua',
+    -- cmd = { 'NvimTreeToggle', 'NvimTreeFocus' },
     requires = {
-      'kyazdani42/nvim-web-devicons', -- optional, for file icons
+      'kyazdani42/nvim-web-devicons',
     },
     tag = 'nightly',
     config = function()
