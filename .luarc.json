@@ -3,6 +3,7 @@
     "Lua.completion.autoRequire": false,
     "Lua.diagnostics.globals": [
         "vim",
-        "packer_bootstrap"
+        "packer_bootstrap",
+        "comment_nvim"
     ]
 }

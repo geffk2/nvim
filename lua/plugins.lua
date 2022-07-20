@@ -7,6 +7,15 @@ end
 return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim' -- this is essential.
 
+  -- Git
+  use {
+    'lewis6991/gitsigns.nvim',
+    config = function()
+      require 'gitsigns'.setup()
+    end
+  }
+  use { 'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim' }
+  use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
   use {
     'pwntester/octo.nvim',
     requires = {
@@ -18,91 +27,29 @@ return require('packer').startup(function(use)
       require"octo".setup()
     end
   }
-  use 'simrat39/symbols-outline.nvim'
-  use {
-    "folke/trouble.nvim",
-    requires = "kyazdani42/nvim-web-devicons",
-    config = function()
-      require("trouble").setup {
-      }
-    end
-  }
-  use {
-    'folke/lsp-colors.nvim',
-    config = function()
-      require("lsp-colors").setup()
-    end
-  }
-  use {
-    'norcalli/nvim-colorizer.lua',
-    config = function()
-      require 'colorizer'.setup()
-    end
-  }
-  use {
-    'nvim-treesitter/nvim-treesitter',
-    run = ':TSUpdate',
-    config = function ()
-      require 'nvim-treesitter.configs'.setup {
-        ensure_installed = "all",
-        ignore_install = {"d", "phpdoc"},
-        highlight = {
-          enable = true,
-          disable = { "vim", },
-        }
-      }
-    end,
-    requires = {
-      'nvim-treesitter/nvim-treesitter-textobjects',
-    }
-  }
 
+  -- LSP
   use {
     'j-hui/fidget.nvim',
     config = function()
       require 'fidget'.setup{}
     end
   }
-  use 'RRethy/vim-illuminate'
   use 'neovim/nvim-lspconfig'
   use 'williamboman/nvim-lsp-installer'
-  use 'L3MON4D3/LuaSnip'
-  use {
-    'weilbith/nvim-code-action-menu',
-  }
+  use 'weilbith/nvim-code-action-menu'
 
+  -- Syntax
   use {
-    'ms-jpq/coq_nvim',
-    requires = {
-      'ms-jpq/coq.artifacts',
-    },
-    branch = 'coq',
-    run = ':COQdeps',
-    setup = function ()
-      vim.g.coq_settings = {
-        auto_start = 'shut-up',
-        keymap = {
-          jump_to_mark = "<c-,>"
-        },
-        clients = {
-          paths = {
-            path_seps = {
-              "/"
-            }
-          },
-          buffers = {
-            match_syms = true
-          }
-        },
-        display = {
-          ghost_text = {
-            enabled = true
-          }
-        }
-      }
+    'nvim-treesitter/nvim-treesitter',
+    run = ':TSUpdate',
+    config = function ()
+      require 'plugins.treesitter'
     end,
+    requires = {
+      'nvim-treesitter/nvim-treesitter-textobjects',
+    }
   }
-  use 'sbdchd/neoformat'
   use 'jiangmiao/auto-pairs'
   use {
     'numToStr/Comment.nvim',
@@ -115,67 +62,44 @@ return require('packer').startup(function(use)
       })
     end
   }
-  use 'godlygeek/tabular'
-  use 'tpope/vim-surround'
+  use {
+    'ms-jpq/coq_nvim',
+    requires = {
+      'ms-jpq/coq.artifacts',
+    },
+    branch = 'coq',
+    run = ':COQdeps',
+    setup = function ()
+      require 'plugins.coq'
+    end,
+  }
+
+  -- Navigation
+  use {
+    'anuvyklack/hydra.nvim',
+    config = function()
+      require 'plugins.hydra'
+    end
+  }
+
+  use 'anuvyklack/vim-smartword'
+  use 'chaoren/vim-wordmotion'
+
   use 'christoomey/vim-tmux-navigator'
   use {
     'nvim-telescope/telescope.nvim',
     requires = { {'nvim-lua/plenary.nvim'} },
     config = function()
-      require 'telescope'.setup {
-        defaults = {
-          prompt_prefix = "  \u{f422}  ",
-          initial_mode = "insert",
-          selection_strategy = "reset",
-          sorting_strategy = "ascending",
-          layout_strategy = "horizontal",
-          layout_config = {
-            horizontal = {
-              prompt_position = "top",
-              preview_width = 0.55,
-              results_width = 0.8,
-            },
-            width = 0.87,
-            height = 0.80,
-            preview_cutoff = 120,
-          },
-          file_sorter = require("telescope.sorters").get_fuzzy_file,
-          file_ignore_patterns = { "node_modules" },
-          generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
-          path_display = { "truncate" },
-          border = {},
-          borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
-          color_devicons = true,
-          set_env = { ["COLORTERM"] = "truecolor" }, -- default = nil,
-          file_previewer = require("telescope.previewers").vim_buffer_cat.new,
-          grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
-          qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
-          mappings = {
-            n = { ["q"] = require("telescope.actions").close },
-          },
-        }
-      }
+      require 'plugins.telescope'
     end
   }
+  use 'nvim-telescope/telescope-ui-select.nvim'
+  use 'luc-tielen/telescope_hoogle'
   use {
     'ggandor/leap.nvim',
     config = function ()
       require 'leap'.set_default_keymaps()
     end
-  }
-  use {
-    'jakewvincent/mkdnflow.nvim',
-    ft = 'md',
-    config = function ()
-      require('mkdnflow').setup({
-
-      })
-    end
-  }
-  use {"ellisonleao/glow.nvim", branch = 'main'}
-  use {
-    'jbyuki/nabla.nvim',
-    ft = 'md'
   }
   use {
     'matbme/JABS.nvim',
@@ -188,19 +112,8 @@ return require('packer').startup(function(use)
       }
     end
   }
-  use 'petertriho/nvim-scrollbar'
-  use {
-    'nvim-lualine/lualine.nvim',
-    requires = { 'kyadzani42/nvim-web-devicons', opt=true },
-  }
-
-  use 'airblade/vim-gitgutter'
-  use 'psliwka/vim-smoothie'
-
-  use 'sainnhe/everforest'
   use {
     'kyazdani42/nvim-tree.lua',
-    -- cmd = { 'NvimTreeToggle', 'NvimTreeFocus' },
     requires = {
       'kyazdani42/nvim-web-devicons',
     },
@@ -210,10 +123,63 @@ return require('packer').startup(function(use)
         view = {
           side = "right",
           width = 40,
+        },
+        git = {
+          enable = false,
         }
       }
     end
   }
+
+  -- Colors
+  use 'sainnhe/everforest'
+  use 'sainnhe/edge'
+  use {
+    'norcalli/nvim-colorizer.lua',
+    config = function()
+      require 'colorizer'.setup()
+    end
+  }
+  use 'edkolev/tmuxline.vim'
+
+  -- Uncategorized
+  use {
+    'goolord/alpha-nvim',
+    config = function ()
+      require 'plugins.alpha'
+    end
+  }
+
+  use 'RRethy/vim-illuminate'
+  use 'L3MON4D3/LuaSnip'
+
+  use 'sbdchd/neoformat'
+
+  use 'godlygeek/tabular'
+  use 'tpope/vim-surround'
+  use {
+    'jakewvincent/mkdnflow.nvim',
+    ft = 'md',
+    config = function ()
+      require('mkdnflow').setup()
+    end
+  }
+  use {
+    'jbyuki/nabla.nvim',
+    ft = 'md'
+  }
+
+  use 'petertriho/nvim-scrollbar'
+  use {
+    'nvim-lualine/lualine.nvim',
+    requires = { 'kyadzani42/nvim-web-devicons', opt=true },
+    config = function()
+      require 'plugins.lualine'
+    end
+  }
+
+  use 'psliwka/vim-smoothie'
+
 end)
 
 

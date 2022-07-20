@@ -29,6 +29,16 @@ vim.g.mapleader = ','
 
 vim.keymap.set('n', '<leader>b', ':JABSOpen<cr>')
 
+-- Navigation in insert mode
+vim.api.nvim_set_keymap('i', '<C-b>', '<ESC>^i', {silent = true, noremap = true})
+vim.api.nvim_set_keymap('i', '<C-e>', '<End>', {silent = true, noremap = true})
+vim.api.nvim_set_keymap('i', '<C-h>', '<Left>', {silent = true, noremap = true})
+vim.api.nvim_set_keymap('i', '<C-l>', '<Right>', {silent = true, noremap = true})
+vim.api.nvim_set_keymap('i', '<C-j>', '<Down>', {silent = true, noremap = true})
+vim.api.nvim_set_keymap('i', '<C-k>', '<Up>', {silent = true, noremap = true})
+-- Better noh
+vim.api.nvim_set_keymap('n', '<Esc>', '<cmd>noh<CR>', {silent = true, noremap = true})
+
 local files_group = vim.api.nvim_create_augroup('Files', {clear = true})
 vim.api.nvim_create_autocmd('FileType', {
   callback = function ()
@@ -37,12 +47,6 @@ vim.api.nvim_create_autocmd('FileType', {
   group = files_group,
   pattern = 'markdown',
 })
--- vim.api.nvim_create_autocmd('FIleType', {
---   command = '%!jq .',
---   group = files_group,
---   pattern = 'json'
--- })
-
 vim.keymap.set('n', 'vv', ':vs<cr>')
 
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
@@ -54,43 +58,32 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
+-- Colorschemes
+vim.g.airline_theme = 'edge'
 vim.g.everforest_background = 'hard'
 vim.g.everforest_diagnostic_virtual_text = 'colored'
-vim.cmd 'colorscheme everforest'
 
+vim.g.edge_better_performance = 1
+vim.g.edge_style = 'aura'
+vim.g.edge_diagnostic_virtual_text = 'colored'
+
+vim.cmd 'colorscheme edge'
+-- vim.cmd 'colorscheme everforest'
 
 require 'scrollbar'.setup()
 vim.keymap.set({'n', 'i'}, '<c-s>', '<esc>:w<cr>')
+vim.keymap.set({'n', 'i'}, '<F6>', '<esc>:w<cr>')
 vim.keymap.set('n', '<leader>tt', '<cmd>NvimTreeToggle<cr>')
 
-require 'lualine'.setup {
-  options = {
-    theme = 'everforest'
-  }
-}
-
-local tele = require 'telescope.builtin'
-vim.keymap.set('n' , '<leader>ff' , tele.find_files)
-vim.keymap.set('n' , '<leader>fg' , tele.live_grep)
--- vim.keymap.set('n' , '<leader>fb' , tele.buffers)
-vim.keymap.set('n' , '<leader>fh' , tele.help_tags)
-vim.keymap.set('n' , '<leader>fm' , tele.man_pages)
-
-vim.keymap.set('n' , '<leader>=' , ':Tabularize /=<cr>')
-vim.keymap.set('n' , '<leader>-' , ':Tabularize /-<cr>')
-vim.keymap.set('n' , '<leader>,' , ':Tabularize /,<cr>')
-vim.keymap.set('n' , '<leader>#' , ':Tabularize /#<cr>')
-vim.keymap.set('n' , '<leader>:' , ':Tabularize /:<cr>')
-
-vim.keymap.set('n', '<leader>ca', ':CodeActionMenu<cr>')
+vim.keymap.set('n', 'ca', vim.lsp.buf.code_action)
 
 -- Lua
-vim.api.nvim_set_keymap("n" , "<leader>xx" , "<cmd>TroubleToggle<cr>"                       , {silent = true , noremap = true})
-vim.api.nvim_set_keymap("n" , "<leader>xw" , "<cmd>TroubleToggle workspace_diagnostics<cr>" , {silent = true , noremap = true})
-vim.api.nvim_set_keymap("n" , "<leader>xd" , "<cmd>TroubleToggle document_diagnostics<cr>"  , {silent = true , noremap = true})
-vim.api.nvim_set_keymap("n" , "<leader>xl" , "<cmd>TroubleToggle loclist<cr>"               , {silent = true , noremap = true})
-vim.api.nvim_set_keymap("n" , "<leader>xq" , "<cmd>TroubleToggle quickfix<cr>"              , {silent = true , noremap = true})
-vim.api.nvim_set_keymap("n" , "gR"         , "<cmd>TroubleToggle lsp_references<cr>"        , {silent = true , noremap = true})
+-- vim.api.nvim_set_keymap("n" , "<leader>xx" , "<cmd>TroubleToggle<cr>"                       , {silent = true , noremap = true})
+-- vim.api.nvim_set_keymap("n" , "<leader>xw" , "<cmd>TroubleToggle workspace_diagnostics<cr>" , {silent = true , noremap = true})
+-- vim.api.nvim_set_keymap("n" , "<leader>xd" , "<cmd>TroubleToggle document_diagnostics<cr>"  , {silent = true , noremap = true})
+-- vim.api.nvim_set_keymap("n" , "<leader>xl" , "<cmd>TroubleToggle loclist<cr>"               , {silent = true , noremap = true})
+-- vim.api.nvim_set_keymap("n" , "<leader>xq" , "<cmd>TroubleToggle quickfix<cr>"              , {silent = true , noremap = true})
+-- vim.api.nvim_set_keymap("n" , "gR"         , "<cmd>TroubleToggle lsp_references<cr>"        , {silent = true , noremap = true})
 
 vim.api.nvim_set_keymap("n", '<leader>ss', '<cmd>SymbolsOutline<cr>', {silent = true, noremap = true})
 
