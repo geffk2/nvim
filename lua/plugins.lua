@@ -169,7 +169,12 @@ return require('packer').startup(function(use)
     ft = 'md'
   }
 
-  use 'petertriho/nvim-scrollbar'
+  use {
+    'petertriho/nvim-scrollbar',
+    config = function()
+      require 'scrollbar'.setup()
+    end
+  }
   use {
     'nvim-lualine/lualine.nvim',
     requires = { 'kyadzani42/nvim-web-devicons', opt=true },

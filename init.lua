@@ -39,14 +39,6 @@ vim.api.nvim_set_keymap('i', '<C-k>', '<Up>', {silent = true, noremap = true})
 -- Better noh
 vim.api.nvim_set_keymap('n', '<Esc>', '<cmd>noh<CR>', {silent = true, noremap = true})
 
-local files_group = vim.api.nvim_create_augroup('Files', {clear = true})
-vim.api.nvim_create_autocmd('FileType', {
-  callback = function ()
-    vim.keymap.set('n', '<leader>p', require('nabla').popup())
-  end,
-  group = files_group,
-  pattern = 'markdown',
-})
 vim.keymap.set('n', 'vv', ':vs<cr>')
 
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
@@ -70,20 +62,13 @@ vim.g.edge_diagnostic_virtual_text = 'colored'
 vim.cmd 'colorscheme edge'
 -- vim.cmd 'colorscheme everforest'
 
-require 'scrollbar'.setup()
+-- Key bindings
 vim.keymap.set({'n', 'i'}, '<c-s>', '<esc>:w<cr>')
 vim.keymap.set({'n', 'i'}, '<F6>', '<esc>:w<cr>')
 vim.keymap.set('n', '<leader>tt', '<cmd>NvimTreeToggle<cr>')
 
 vim.keymap.set('n', 'ca', vim.lsp.buf.code_action)
 
--- Lua
--- vim.api.nvim_set_keymap("n" , "<leader>xx" , "<cmd>TroubleToggle<cr>"                       , {silent = true , noremap = true})
--- vim.api.nvim_set_keymap("n" , "<leader>xw" , "<cmd>TroubleToggle workspace_diagnostics<cr>" , {silent = true , noremap = true})
--- vim.api.nvim_set_keymap("n" , "<leader>xd" , "<cmd>TroubleToggle document_diagnostics<cr>"  , {silent = true , noremap = true})
--- vim.api.nvim_set_keymap("n" , "<leader>xl" , "<cmd>TroubleToggle loclist<cr>"               , {silent = true , noremap = true})
--- vim.api.nvim_set_keymap("n" , "<leader>xq" , "<cmd>TroubleToggle quickfix<cr>"              , {silent = true , noremap = true})
--- vim.api.nvim_set_keymap("n" , "gR"         , "<cmd>TroubleToggle lsp_references<cr>"        , {silent = true , noremap = true})
-
-vim.api.nvim_set_keymap("n", '<leader>ss', '<cmd>SymbolsOutline<cr>', {silent = true, noremap = true})
+vim.keymap.set('n', ']b', ':bn<cr>')
+vim.keymap.set('n', '[b', ':bp<cr>')
 
