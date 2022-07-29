@@ -36,6 +36,41 @@ require 'telescope'.setup {
     }
   }
 }
+
+local themes = {
+  command_pane = {
+    theme = 'command_pane',
+    preview = false,
+    prompt_title = false,
+    results_title = false,
+    sorting_strategy = 'descending',
+    layout_strategy = 'bottom_pane',
+    layout_config = {
+      height = 13,
+      preview_cutoff = 1,
+      prompt_position = 'bottom'
+    },
+  },
+  popup_list = {
+    theme = 'popup_list',
+    border = true,
+    preview = false,
+    prompt_title = false,
+    results_title = false,
+    sorting_strategy = 'ascending',
+    layout_strategy = 'center',
+    borderchars = {
+      prompt  = { '─', '│', '─', '│', '┌', '┐', '┤', '└' },
+      results = { '─', '│', '─', '│', '├', '┤', '┘', '└' },
+      preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
+    },
+  },
+}
+
+local use_theme = function(picker, theme)
+  return function() picker(themes[theme]) end
+end
+
 require 'telescope'.load_extension("ui-select")
 require 'telescope'.load_extension("hoogle")
 
@@ -46,11 +81,11 @@ vim.keymap.set('n' , '<leader>fh' , tele.help_tags)
 vim.keymap.set('n' , '<leader>fm' , tele.man_pages)
 vim.keymap.set('n' , '<leader>fd' , tele.diagnostics)
 vim.keymap.set('n' , '<leader>fq' , tele.quickfix)
+vim.keymap.set('n' , '<leader>fc' , use_theme(tele.commands, 'command_pane'))
 
 vim.keymap.set('n' , '<leader>=' , ':Tabularize /=<cr>')
 vim.keymap.set('n' , '<leader>-' , ':Tabularize /-<cr>')
 vim.keymap.set('n' , '<leader>,' , ':Tabularize /,<cr>')
 vim.keymap.set('n' , '<leader>#' , ':Tabularize /#<cr>')
 vim.keymap.set('n' , '<leader>:' , ':Tabularize /:<cr>')
-
 

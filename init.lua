@@ -26,6 +26,7 @@ vim.o.background = 'dark'
 vim.o.laststatus = 2
 vim.o.mouse = 'a'
 vim.g.mapleader = ','
+vim.g.maplocalleader = ','
 
 vim.keymap.set('n', '<leader>b', ':JABSOpen<cr>')
 
@@ -49,9 +50,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = highlight_group,
   pattern = '*',
 })
-
 -- Colorschemes
-vim.g.airline_theme = 'edge'
 vim.g.everforest_background = 'hard'
 vim.g.everforest_diagnostic_virtual_text = 'colored'
 
@@ -59,6 +58,7 @@ vim.g.edge_better_performance = 1
 vim.g.edge_style = 'aura'
 vim.g.edge_diagnostic_virtual_text = 'colored'
 
+-- require 'everblush'.setup()
 vim.cmd 'colorscheme edge'
 -- vim.cmd 'colorscheme everforest'
 
@@ -66,6 +66,7 @@ vim.cmd 'colorscheme edge'
 vim.keymap.set({'n', 'i'}, '<c-s>', '<esc>:w<cr>')
 vim.keymap.set({'n', 'i'}, '<F6>', '<esc>:w<cr>')
 vim.keymap.set('n', '<leader>tt', '<cmd>NvimTreeToggle<cr>')
+vim.keymap.set('n', '<leader>uu', '<cmd>UndotreeToggle<cr>')
 
 vim.keymap.set('n', 'ca', vim.lsp.buf.code_action)
 

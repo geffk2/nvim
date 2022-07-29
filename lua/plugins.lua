@@ -50,6 +50,7 @@ return require('packer').startup(function(use)
       'nvim-treesitter/nvim-treesitter-textobjects',
     }
   }
+  use 'p00f/nvim-ts-rainbow'
   use 'jiangmiao/auto-pairs'
   use {
     'numToStr/Comment.nvim',
@@ -79,6 +80,19 @@ return require('packer').startup(function(use)
     'anuvyklack/hydra.nvim',
     config = function()
       require 'plugins.hydra'
+    end
+  }
+  use {
+    'nacro90/numb.nvim',
+    config = function()
+      require 'numb'.setup()
+    end
+  }
+  use 'mbbill/undotree'
+  use {
+    'chentoast/marks.nvim',
+    config = function()
+      require 'marks'.setup {}
     end
   }
 
@@ -142,6 +156,22 @@ return require('packer').startup(function(use)
   }
   use 'edkolev/tmuxline.vim'
 
+  -- Clojure
+  use 'radenling/vim-dispatch-neovim'
+  use 'clojure-vim/vim-jack-in'
+  use {
+    'Olical/conjure',
+    ft = { 'clojure', 'fennel' }
+  }
+  use {
+    'guns/vim-sexp',
+    ft = { 'clojure', 'fennel' }
+  }
+  use {
+    'tpope/vim-sexp-mappings-for-regular-people',
+    ft = { 'clojure', 'fennel' }
+  }
+
   -- Uncategorized
   use {
     'goolord/alpha-nvim',
@@ -150,6 +180,7 @@ return require('packer').startup(function(use)
     end
   }
 
+  use 'jghauser/mkdir.nvim'
   use 'RRethy/vim-illuminate'
   use 'L3MON4D3/LuaSnip'
 
@@ -157,18 +188,6 @@ return require('packer').startup(function(use)
 
   use 'godlygeek/tabular'
   use 'tpope/vim-surround'
-  use {
-    'jakewvincent/mkdnflow.nvim',
-    ft = 'md',
-    config = function ()
-      require('mkdnflow').setup()
-    end
-  }
-  use {
-    'jbyuki/nabla.nvim',
-    ft = 'md'
-  }
-
   use {
     'petertriho/nvim-scrollbar',
     config = function()

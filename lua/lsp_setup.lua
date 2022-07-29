@@ -49,6 +49,7 @@ local servers = {
   gopls = {},
   svelte = {},
   tailwindcss = {},
+  clojure_lsp = {}
 }
 -- local lsp = require 'lspconfig'
 local lsp_defaults = {

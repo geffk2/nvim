@@ -10,7 +10,17 @@ require 'lualine'.setup {
   sections = {
     lualine_a = { 'mode' },
     lualine_b = { 'branch', 'diff' },
-    -- lualine_c = { 'buffers' },
+    lualine_c = {
+      {
+        'diagnostics',
+        diagnostics_color = {
+          error = 'LspDiagnosticsSignError',
+          warn = 'LspDiagnosticsSignWarning',
+          info = 'LspDiagnosticsSignInformation',
+          hint = 'LspDiagnosticsSignHint'
+        },
+      },
+    },
     lualine_x = { 'encoding', 'filetype' },
     lualine_y = { 'progress' },
     lualine_z = { 'location' }
