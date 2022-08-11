@@ -1,7 +1,7 @@
 vim.g.coq_settings = {
   auto_start = 'shut-up',
   keymap = {
-    jump_to_mark = "<c-,>"
+    jump_to_mark = "<c-,>",
   },
   clients = {
     paths = {
@@ -19,3 +19,4 @@ vim.g.coq_settings = {
     }
   }
 }
+

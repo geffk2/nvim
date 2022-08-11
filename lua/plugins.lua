@@ -28,6 +28,16 @@ return require('packer').startup(function(use)
     end
   }
 
+  -- DAP
+  use 'mfussenegger/nvim-dap'
+  use {
+    'rcarriga/nvim-dap-ui',
+    requires = { 'mfussenegger/nvim-dap' },
+    config = function()
+      require 'dapui'.setup()
+    end
+  }
+
   -- LSP
   use {
     'j-hui/fidget.nvim',
@@ -36,8 +46,50 @@ return require('packer').startup(function(use)
     end
   }
   use 'neovim/nvim-lspconfig'
-  use 'williamboman/nvim-lsp-installer'
-  use 'weilbith/nvim-code-action-menu'
+  use {
+    'williamboman/mason.nvim',
+    config = function()
+      require 'masonconfig'.config()
+    end
+  }
+  use({
+    "glepnir/lspsaga.nvim",
+    branch = "main",
+    config = function()
+      require 'plugins.sagaconf'
+    end,
+  })
+  use 'williamboman/mason-lspconfig.nvim'
+  use {
+    'simrat39/rust-tools.nvim',
+    ft = 'rust',
+    config = function()
+      require 'rust-tools'.setup {
+        tools = {
+          on_initialized = function(_)
+            require 'masonconfig'.on_attach(0, 0)
+          end
+        },
+        server = {
+          settings = {
+            ["rust_analyzer"] = {
+              assist = {
+                importEnforceGranularity = true,
+                importPrefix = 'crate',
+              },
+              cargo = {
+                allFeatures = true,
+              },
+              checkOnSave = {
+                command = 'clippy'
+              },
+            },
+          }
+        }
+      }
+      vim.api.nvim_set_keymap('n', '<leader>rr', '<cmd>RustRun<cr>', {silent = true, noremap = true})
+    end
+  }
 
   -- Syntax
   use {
@@ -107,8 +159,18 @@ return require('packer').startup(function(use)
       require 'plugins.telescope'
     end
   }
-  use 'nvim-telescope/telescope-ui-select.nvim'
-  use 'luc-tielen/telescope_hoogle'
+  -- use 'nvim-telescope/telescope-ui-select.nvim'
+  -- use 'luc-tielen/telescope_hoogle'
+  use {
+    'stevearc/dressing.nvim',
+    config = function()
+      require 'dressing'.setup {
+        select = {
+          -- backend = { 'builtin', 'telescope', 'fzf_lua', 'fzf', 'nui' }
+        }
+      }
+    end
+  }
   use {
     'ggandor/leap.nvim',
     config = function ()
@@ -148,19 +210,20 @@ return require('packer').startup(function(use)
   -- Colors
   use 'sainnhe/everforest'
   use 'sainnhe/edge'
+  use 'sainnhe/sonokai'
   use {
     'norcalli/nvim-colorizer.lua',
     config = function()
       require 'colorizer'.setup()
     end
   }
-  use 'edkolev/tmuxline.vim'
 
   -- Clojure
   use 'radenling/vim-dispatch-neovim'
   use 'clojure-vim/vim-jack-in'
   use {
     'Olical/conjure',
+    branch = 'master',
     ft = { 'clojure', 'fennel' }
   }
   use {
@@ -179,31 +242,37 @@ return require('packer').startup(function(use)
       require 'plugins.alpha'
     end
   }
+  -- use {
+    --   'stevearc/overseer.nvim',
+    --   config = function()
+      --     require 'overseer'.setup()
+      --   end
+      -- }
 
-  use 'jghauser/mkdir.nvim'
-  use 'RRethy/vim-illuminate'
-  use 'L3MON4D3/LuaSnip'
+      use 'jghauser/mkdir.nvim'
+      use 'RRethy/vim-illuminate'
+      use 'L3MON4D3/LuaSnip'
 
-  use 'sbdchd/neoformat'
+      use 'sbdchd/neoformat'
 
-  use 'godlygeek/tabular'
-  use 'tpope/vim-surround'
-  use {
-    'petertriho/nvim-scrollbar',
-    config = function()
-      require 'scrollbar'.setup()
-    end
-  }
-  use {
-    'nvim-lualine/lualine.nvim',
-    requires = { 'kyadzani42/nvim-web-devicons', opt=true },
-    config = function()
-      require 'plugins.lualine'
-    end
-  }
+      use 'godlygeek/tabular'
+      use 'tpope/vim-surround'
+      use {
+        'petertriho/nvim-scrollbar',
+        config = function()
+          require 'scrollbar'.setup()
+        end
+      }
+      use {
+        'nvim-lualine/lualine.nvim',
+        requires = { 'kyadzani42/nvim-web-devicons', opt=true },
+        config = function()
+          require 'plugins.lualine'
+        end
+      }
 
-  use 'psliwka/vim-smoothie'
+      use 'psliwka/vim-smoothie'
 
-end)
+    end)
 
 

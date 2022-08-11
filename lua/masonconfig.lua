@@ -1,4 +1,6 @@
-local on_attach = function(_, bufnr)
+local _M = {}
+
+_M.on_attach = function(_, bufnr)
   local nmap = function(keys, func, desc)
     if desc then
       desc = 'LSP: ' .. desc
@@ -27,61 +29,55 @@ local on_attach = function(_, bufnr)
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
   end, '[W]orkspace [L]ist Folders')
 
-  vim.api.nvim_buf_create_user_command(bufnr, 'Format', vim.lsp.buf.format or vim.lsp.buf.formatting, { desc = 'Format current buffer with LSP' })
+  vim.api.nvim_buf_create_user_command(bufnr, 'Format', vim.lsp.buf.format or vim.lsp.buf.formatting,
+  { desc = 'Format current buffer with LSP' })
 end
 
-local servers = {
-  clangd = {},
-  rust_analyzer = {},
-  hls = {},
-  pyright = {},
-  tsserver = {},
-  sumneko_lua = {
-    settings = {
-      Lua = {
-        diagnostics = {
-          globals = {'vim'}
-        }
+_M.config = function()
+  require("mason").setup({
+    ui = {
+      icons = {
+        package_installed = "✓",
+        package_pending = "➜",
+        package_uninstalled = "✗"
       }
     }
-  },
-  elixirls = {},
-  gopls = {},
-  svelte = {},
-  tailwindcss = {},
-  clojure_lsp = {}
-}
--- local lsp = require 'lspconfig'
-local lsp_defaults = {
-  flags = {
-    debounce_text_changes = 150,
-  },
-  on_attach = on_attach
-}
-
-local lspis = require 'nvim-lsp-installer.servers'
-local function install_servers(servs, options)
-  for name, _ in pairs(servs) do
-    local available, server = lspis.get_server(name)
-
-    if available then
-      -- 
-      server:on_ready(function()
-        local opts = vim.tbl_deep_extend("force", options, servs[server.name] or {})
-        server:setup(opts)
-      end)
-    end
-
-    if not server:is_installed() then
-      server:install()
-    end
-  end
+  })
 end
 
-vim.schedule(function()
-  require("packer").loader("coq_nvim coq.artifacts")
-  local opts = require("coq")().lsp_ensure_capabilities(lsp_defaults)
-  install_servers(servers, opts)
-end)
+_M.setup = function()
+  local servers = {
+    sumneko_lua = {
+      settings = {
+        Lua = {
+          diagnostics = {
+            globals = { 'vim' }
+          }
+        }
+      }
+    },
+  }
 
 
+  local lsp_defaults = {
+    flags = {
+      debounce_text_changes = 150,
+    },
+    on_attach = _M.on_attach
+  }
+
+
+  vim.schedule(function()
+    require 'packer'.loader('coq_nvim coq.artifacts')
+    local coq_defaults = require("coq")().lsp_ensure_capabilities(lsp_defaults)
+
+    require 'mason-lspconfig'.setup_handlers {
+      function(server_name)
+        local opts = vim.tbl_deep_extend('force', coq_defaults, servers[server_name] or {})
+        require('lspconfig')[server_name].setup(opts)
+      end
+    }
+  end)
+end
+
+return _M

@@ -71,21 +71,20 @@ local use_theme = function(picker, theme)
   return function() picker(themes[theme]) end
 end
 
-require 'telescope'.load_extension("ui-select")
-require 'telescope'.load_extension("hoogle")
+-- require 'telescope'.load_extension("ui-select")
 
 local tele = require 'telescope.builtin'
-vim.keymap.set('n' , '<leader>ff' , tele.find_files)
-vim.keymap.set('n' , '<leader>fg' , tele.live_grep)
-vim.keymap.set('n' , '<leader>fh' , tele.help_tags)
-vim.keymap.set('n' , '<leader>fm' , tele.man_pages)
-vim.keymap.set('n' , '<leader>fd' , tele.diagnostics)
-vim.keymap.set('n' , '<leader>fq' , tele.quickfix)
-vim.keymap.set('n' , '<leader>fc' , use_theme(tele.commands, 'command_pane'))
+vim.keymap.set('n', '<leader>fr', tele.resume)
+vim.keymap.set('n', '<leader>ff', tele.find_files)
+vim.keymap.set('n', '<leader>fg', tele.live_grep)
+vim.keymap.set('n', '<leader>fh', tele.help_tags)
+vim.keymap.set('n', '<leader>fm', tele.man_pages)
+vim.keymap.set('n', '<leader>fd', tele.diagnostics)
+vim.keymap.set('n', '<leader>fq', tele.quickfix)
+vim.keymap.set('n', '<leader>fc', use_theme(tele.commands, 'command_pane'))
 
-vim.keymap.set('n' , '<leader>=' , ':Tabularize /=<cr>')
-vim.keymap.set('n' , '<leader>-' , ':Tabularize /-<cr>')
-vim.keymap.set('n' , '<leader>,' , ':Tabularize /,<cr>')
-vim.keymap.set('n' , '<leader>#' , ':Tabularize /#<cr>')
-vim.keymap.set('n' , '<leader>:' , ':Tabularize /:<cr>')
-
+vim.keymap.set('n', '<leader>=', ':Tabularize /=<cr>')
+vim.keymap.set('n', '<leader>-', ':Tabularize /-<cr>')
+vim.keymap.set('n', '<leader>,', ':Tabularize /,<cr>')
+vim.keymap.set('n', '<leader>#', ':Tabularize /#<cr>')
+vim.keymap.set('n', '<leader>:', ':Tabularize /:<cr>')

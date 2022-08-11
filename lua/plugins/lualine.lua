@@ -3,7 +3,7 @@ require 'lualine'.setup {
     'nvim-tree',
   },
   options = {
-    theme = 'edge',
+    theme = require 'colorschemes',
     section_separators = { left = '', right = '' },
     component_separators = { left = '', right = '' }
   },
