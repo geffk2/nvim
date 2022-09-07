@@ -208,6 +208,7 @@ return require('packer').startup(function(use)
   }
 
   -- Colors
+  use "EdenEast/nightfox.nvim"
   use 'sainnhe/everforest'
   use 'sainnhe/edge'
   use 'sainnhe/sonokai'
