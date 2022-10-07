@@ -1,19 +1,21 @@
 require 'plugins'
 require 'masonconfig'.setup()
 
-local packer_group = vim.api.nvim_create_augroup('Packer', { clear = true })
-vim.api.nvim_create_autocmd('BufWritePost', {
-  command = 'source <afile> | PackerCompile',
-  group = packer_group,
-  pattern = 'plugins.lua',
+local packer_group = vim.api.nvim_create_augroup('Packer' , { clear = true })
+vim.api.nvim_create_autocmd('BufWritePost'                , {
+  command = 'source <afile> | PackerCompile'              ,
+  group = packer_group                                    ,
+  pattern = 'plugins.lua'                                 ,
 })
 vim.api.nvim_create_autocmd('BufWritePost', {
   command = 'source <afile>',
   pattern = 'init.lua'
 })
 
+
 vim.o.termguicolors = true
 vim.o.number = true
+vim.o.relativenumber = true
 vim.o.showmode = true
 vim.o.smartcase = true
 vim.o.smarttab = true
@@ -25,8 +27,11 @@ vim.o.softtabstop = 2
 vim.o.background = 'dark'
 vim.o.laststatus = 2
 vim.o.mouse = 'a'
+vim.opt.completeopt = {'menu', 'menuone', 'noselect'}
 vim.g.mapleader = ','
 vim.g.maplocalleader = ','
+
+vim.g.vimtex_view_method = 'skim'
 
 vim.keymap.set('n', '<leader>b', ':JABSOpen<cr>')
 
@@ -40,7 +45,9 @@ vim.api.nvim_set_keymap('i', '<C-k>', '<Up>', { silent = true, noremap = true })
 -- Better noh
 vim.api.nvim_set_keymap('n', '<Esc>', '<cmd>noh<CR>', { silent = true, noremap = true })
 
-vim.keymap.set('n', 'vv', ':vs<cr>')
+vim.keymap.set('n', ',vv', ':vs<cr>')
+vim.keymap.set('n', ',ss', ':split<cr>')
+vim.keymap.set('n', ',lsp', ':LspStart<cr>')
 
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
@@ -51,11 +58,10 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
+
 -- Key bindings
 vim.keymap.set({ 'n', 'i' }, '<c-s>', '<esc>:w<cr>')
 vim.keymap.set({ 'n', 'i' }, '<F6>', '<esc>:w<cr>')
-vim.keymap.set('n', '<leader>tt', '<cmd>NvimTreeToggle<cr>')
-vim.keymap.set('n', '<leader>uu', '<cmd>UndotreeToggle<cr>')
 
 vim.keymap.set('n', 'ca', vim.lsp.buf.code_action)
 

@@ -10,8 +10,7 @@ vim.g.sonokai_style = 'default'
 vim.g.sonokai_better_performance = 1
 vim.g.sonokari_diagnostic_virtual_text = 'colored'
 
-local theme = 'edge'
+local theme = 'everforest'
 vim.cmd ('colorscheme ' .. theme)
--- vim.cmd.colorscheme theme
 
 return theme

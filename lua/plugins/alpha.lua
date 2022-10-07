@@ -29,7 +29,8 @@ dashboard.section.buttons.val = {
   dashboard.button( "r", "  Recently used files"   , ":Telescope oldfiles<CR>"),
   dashboard.button( "f", "  Find file", ":Telescope find_files<CR>"),
   dashboard.button( "t", "  Find text", ":Telescope live_grep <CR>"),
-  dashboard.button( "s", "  Settings" , ":e $HOME/.config/nvim/init.lua | :cd %:p:h | split . | wincmd k | pwd<CR>"),
+  -- dashboard.button( "s", "  Settings" , ":e $HOME/.config/nvim/init.lua | :cd %:p:h | split . | wincmd k | pwd<CR>"),
+  dashboard.button( "s", "  Settings" , ":e $HOME/.config/nvim/init.lua | :cd %:p:h |  pwd<CR>"),
   dashboard.button( "q", "  Quit NVIM", ":qa<CR>"),
 }
 

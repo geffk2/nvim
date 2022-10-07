@@ -3,7 +3,7 @@ require 'lualine'.setup {
     'nvim-tree',
   },
   options = {
-    theme = require 'colorschemes',
+    theme = 'auto',
     section_separators = { left = '', right = '' },
     component_separators = { left = '', right = '' }
   },
@@ -26,6 +26,6 @@ require 'lualine'.setup {
     lualine_z = { 'location' }
   },
   tabline = {
-    lualine_c = { 'buffers' }
+    lualine_a = { 'buffers' }
   }
 }

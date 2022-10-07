@@ -16,17 +16,6 @@ return require('packer').startup(function(use)
   }
   use { 'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim' }
   use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
-  use {
-    'pwntester/octo.nvim',
-    requires = {
-      'nvim-lua/plenary.nvim',
-      'nvim-telescope/telescope.nvim',
-      'kyazdani42/nvim-web-devicons',
-    },
-    config = function ()
-      require"octo".setup()
-    end
-  }
 
   -- DAP
   use 'mfussenegger/nvim-dap'
@@ -45,7 +34,10 @@ return require('packer').startup(function(use)
       require 'fidget'.setup{}
     end
   }
-  use 'neovim/nvim-lspconfig'
+  use {
+    'neovim/nvim-lspconfig',
+    after = 'mason-lspconfig.nvim',
+  }
   use {
     'williamboman/mason.nvim',
     config = function()
@@ -59,16 +51,19 @@ return require('packer').startup(function(use)
       require 'plugins.sagaconf'
     end,
   })
-  use 'williamboman/mason-lspconfig.nvim'
+  use {
+    'williamboman/mason-lspconfig.nvim',
+    after = 'mason.nvim'
+  }
   use {
     'simrat39/rust-tools.nvim',
     ft = 'rust',
     config = function()
       require 'rust-tools'.setup {
         tools = {
-          on_initialized = function(_)
-            require 'masonconfig'.on_attach(0, 0)
-          end
+          runnables = {
+            use_telescope = true,
+          }
         },
         server = {
           settings = {
@@ -84,11 +79,32 @@ return require('packer').startup(function(use)
                 command = 'clippy'
               },
             },
-          }
+          },
+          on_attach = function(a, bufnr)
+            require 'masonconfig'.on_attach(a, bufnr)
+            local rt = require 'rust-tools'
+            vim.keymap.set("n", "K", rt.hover_actions.hover_actions, {buffer = bufnr})
+          end,
         }
       }
       vim.api.nvim_set_keymap('n', '<leader>rr', '<cmd>RustRun<cr>', {silent = true, noremap = true})
     end
+  }
+
+  use {
+    'saecki/crates.nvim',
+    event = { "BufRead Cargo.toml" },
+    requires = { { 'nvim-lua/plenary.nvim' } },
+    config = function()
+      require('crates').setup {
+        src = {
+          coq = {
+            enabled = true,
+            name = "crates.nvim",
+          }
+        }
+      }
+    end,
   }
 
   -- Syntax
@@ -103,7 +119,7 @@ return require('packer').startup(function(use)
     }
   }
   use 'p00f/nvim-ts-rainbow'
-  use 'jiangmiao/auto-pairs'
+  -- use 'jiangmiao/auto-pairs'
   use {
     'numToStr/Comment.nvim',
     config = function()
@@ -116,6 +132,7 @@ return require('packer').startup(function(use)
     end
   }
   use {
+    disable = true,
     'ms-jpq/coq_nvim',
     requires = {
       'ms-jpq/coq.artifacts',
@@ -126,6 +143,32 @@ return require('packer').startup(function(use)
       require 'plugins.coq'
     end,
   }
+  use {
+    'L3MON4D3/luasnip',
+    config = function()
+      require 'luasnip.loaders.from_vscode'.lazy_load()
+    end
+  }
+  use {
+    'hrsh7th/nvim-cmp',
+    requires = {
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-cmdline',
+      'L3MON4D3/luasnip',
+      'saadparwaiz1/cmp_luasnip',
+      'onsails/lspkind.nvim'
+    },
+    after = 'luasnip',
+    config = function()
+      require 'plugins.setupcmp'
+    end
+  }
+
+  use {
+    'lervag/vimtex'
+  }
 
   -- Navigation
   use {
@@ -135,21 +178,19 @@ return require('packer').startup(function(use)
     end
   }
   use {
+    'echasnovski/mini.nvim',
+    config = function()
+      require 'mini.pairs'.setup()
+      require 'mini.surround'.setup()
+      require 'mini.ai'.setup()
+    end
+  }
+  use {
     'nacro90/numb.nvim',
     config = function()
       require 'numb'.setup()
     end
   }
-  use 'mbbill/undotree'
-  use {
-    'chentoast/marks.nvim',
-    config = function()
-      require 'marks'.setup {}
-    end
-  }
-
-  use 'anuvyklack/vim-smartword'
-  use 'chaoren/vim-wordmotion'
 
   use 'christoomey/vim-tmux-navigator'
   use {
@@ -159,8 +200,6 @@ return require('packer').startup(function(use)
       require 'plugins.telescope'
     end
   }
-  -- use 'nvim-telescope/telescope-ui-select.nvim'
-  -- use 'luc-tielen/telescope_hoogle'
   use {
     'stevearc/dressing.nvim',
     config = function()
@@ -190,6 +229,7 @@ return require('packer').startup(function(use)
   }
   use {
     'kyazdani42/nvim-tree.lua',
+    disable = true,
     requires = {
       'kyazdani42/nvim-web-devicons',
     },
@@ -208,7 +248,6 @@ return require('packer').startup(function(use)
   }
 
   -- Colors
-  use "EdenEast/nightfox.nvim"
   use 'sainnhe/everforest'
   use 'sainnhe/edge'
   use 'sainnhe/sonokai'
@@ -243,37 +282,30 @@ return require('packer').startup(function(use)
       require 'plugins.alpha'
     end
   }
-  -- use {
-    --   'stevearc/overseer.nvim',
-    --   config = function()
-      --     require 'overseer'.setup()
-      --   end
-      -- }
+  use 'jghauser/mkdir.nvim'
+  use 'RRethy/vim-illuminate'
+  use 'L3MON4D3/LuaSnip'
 
-      use 'jghauser/mkdir.nvim'
-      use 'RRethy/vim-illuminate'
-      use 'L3MON4D3/LuaSnip'
+  use 'sbdchd/neoformat'
 
-      use 'sbdchd/neoformat'
+  use 'godlygeek/tabular'
+  -- use 'tpope/vim-surround'
+  use {
+    'petertriho/nvim-scrollbar',
+    config = function()
+      require 'scrollbar'.setup()
+    end
+  }
+  use {
+    'nvim-lualine/lualine.nvim',
+    requires = { 'kyadzani42/nvim-web-devicons', opt=true },
+    config = function()
+      require 'plugins.lualine'
+    end
+  }
 
-      use 'godlygeek/tabular'
-      use 'tpope/vim-surround'
-      use {
-        'petertriho/nvim-scrollbar',
-        config = function()
-          require 'scrollbar'.setup()
-        end
-      }
-      use {
-        'nvim-lualine/lualine.nvim',
-        requires = { 'kyadzani42/nvim-web-devicons', opt=true },
-        config = function()
-          require 'plugins.lualine'
-        end
-      }
+  use 'psliwka/vim-smoothie'
 
-      use 'psliwka/vim-smoothie'
-
-    end)
+end)
 
 

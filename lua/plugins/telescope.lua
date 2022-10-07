@@ -83,6 +83,7 @@ vim.keymap.set('n', '<leader>fm', tele.man_pages)
 vim.keymap.set('n', '<leader>fd', tele.diagnostics)
 vim.keymap.set('n', '<leader>fq', tele.quickfix)
 vim.keymap.set('n', '<leader>fc', use_theme(tele.commands, 'command_pane'))
+-- vim.keymap.set('n', ':', use_theme(tele.commands, 'command_pane'))
 
 vim.keymap.set('n', '<leader>=', ':Tabularize /=<cr>')
 vim.keymap.set('n', '<leader>-', ':Tabularize /-<cr>')

@@ -27,6 +27,7 @@ _M.on_attach = function(_, bufnr)
   nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
   nmap('<leader>wl', function()
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  nmap('=', vim.lsp.buf.format, 'Format')
   end, '[W]orkspace [L]ist Folders')
 
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', vim.lsp.buf.format or vim.lsp.buf.formatting,
@@ -56,6 +57,7 @@ _M.setup = function()
         }
       }
     },
+
   }
 
 
@@ -63,17 +65,21 @@ _M.setup = function()
     flags = {
       debounce_text_changes = 150,
     },
-    on_attach = _M.on_attach
+    capabilities = require 'cmp_nvim_lsp'.update_capabilities(
+      vim.lsp.protocol.make_client_capabilities()
+    ),
+    on_attach = _M.on_attach,
+    autostart = true
   }
 
 
   vim.schedule(function()
-    require 'packer'.loader('coq_nvim coq.artifacts')
-    local coq_defaults = require("coq")().lsp_ensure_capabilities(lsp_defaults)
-
+    -- require 'packer'.loader('coq_nvim coq.artifacts')
+    -- local coq = require 'coq'
     require 'mason-lspconfig'.setup_handlers {
       function(server_name)
-        local opts = vim.tbl_deep_extend('force', coq_defaults, servers[server_name] or {})
+        local opts = vim.tbl_deep_extend('force', lsp_defaults, servers[server_name] or {})
+        -- require('lspconfig')[server_name].setup(coq.lsp_ensure_capabilities(opts))
         require('lspconfig')[server_name].setup(opts)
       end
     }
