@@ -35,6 +35,22 @@ return require('packer').startup(function(use)
     end
   }
   use {
+    'jose-elias-alvarez/null-ls.nvim',
+    disable = true,
+    requires = 'nvim-lua/plenary.nvim' ,
+    config = function()
+      require 'null-ls'.setup {
+        sources = {
+          require 'null-ls'.builtins.diagnostics.shell_check,
+          require 'null-ls'.builtins.diagnostics.chktex,
+          require 'null-ls'.builtins.diagnostics.cppcheck,
+          require 'null-ls'.builtins.diagnostics.luacheck,
+          require 'null-ls'.builtins.diagnostics.pylint
+        }
+      }
+    end
+  }
+  use {
     'neovim/nvim-lspconfig',
     after = 'mason-lspconfig.nvim',
   }
@@ -251,13 +267,13 @@ return require('packer').startup(function(use)
   use 'sainnhe/everforest'
   use 'sainnhe/edge'
   use 'sainnhe/sonokai'
+  use 'NTBBloodbath/doom-one.nvim'
   use {
     'norcalli/nvim-colorizer.lua',
     config = function()
       require 'colorizer'.setup()
     end
   }
-
   -- Clojure
   use 'radenling/vim-dispatch-neovim'
   use 'clojure-vim/vim-jack-in'
