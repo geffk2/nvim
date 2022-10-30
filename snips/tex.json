@@ -1,0 +1,7 @@
+{
+  "mytemplate": {
+    "prefix": "mytemplate",
+    "body": "\\documentclass{article}\n\\usepackage{amsmath}\n\\usepackage{amssymb}\n\\usepackage{graphicx}\n\\usepackage[a4paper, total={7in, 10in}]{geometry}\n\\usepackage{hyperref}\n\\usepackage{wrapfig}\n\\graphicspath{ {.} }\n\n\\title{Physics Assignment Two}\n\\author{Maximova Ekaterina\\e.maximova@innopolis.unviersity B21-05}\n\\date{October 2, 2022}\n\n\\begin{document}\n\\maketitle\n\\end{document}",
+
+  }
+}

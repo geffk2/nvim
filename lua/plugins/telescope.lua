@@ -74,16 +74,22 @@ end
 -- require 'telescope'.load_extension("ui-select")
 
 local tele = require 'telescope.builtin'
-vim.keymap.set('n', '<leader>fr', tele.resume)
-vim.keymap.set('n', '<leader>ff', tele.find_files)
-vim.keymap.set('n', '<c-p>', tele.find_files)
-vim.keymap.set('n', '<leader>fg', tele.live_grep)
-vim.keymap.set('n', '<leader>fh', tele.help_tags)
-vim.keymap.set('n', '<leader>fm', tele.man_pages)
-vim.keymap.set('n', '<leader>fd', tele.diagnostics)
-vim.keymap.set('n', '<leader>fq', tele.quickfix)
-vim.keymap.set('n', '<leader>fc', use_theme(tele.commands, 'command_pane'))
--- vim.keymap.set('n', ':', use_theme(tele.commands, 'command_pane'))
+local wk = require 'which-key'
+
+wk.register({
+  f = {
+    name = "Find",
+    r = { tele.resume, "Resume search" },
+    f = { tele.find_files, "Files" },
+    g = { tele.live_grep, "Live grep" },
+    h = { tele.help_tags, "Help tags" },
+    m = { tele.man_pages, "Man pages" },
+    d = { tele.diagnostics, "Diagnostics" },
+    q = { tele.quickfix, "Quickfix list" },
+    c = { use_theme(tele.commands, 'command_pane'), "Commands" }
+  }
+}, { prefix = "<leader>" })
+
 
 vim.keymap.set('n', '<leader>=', ':Tabularize /=<cr>')
 vim.keymap.set('n', '<leader>-', ':Tabularize /-<cr>')

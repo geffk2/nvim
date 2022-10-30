@@ -12,7 +12,6 @@ vim.api.nvim_create_autocmd('BufWritePost', {
   pattern = 'init.lua'
 })
 
-
 vim.o.termguicolors = true
 vim.o.number = true
 vim.o.relativenumber = true
@@ -32,7 +31,6 @@ vim.g.mapleader = ','
 vim.g.maplocalleader = ','
 
 vim.g.vimtex_view_method = 'skim'
-
 vim.keymap.set('n', '<leader>b', ':JABSOpen<cr>')
 
 -- Navigation in insert mode
@@ -58,15 +56,18 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
-
 -- Key bindings
 vim.keymap.set({ 'n', 'i' }, '<c-s>', '<esc>:w<cr>')
 vim.keymap.set({ 'n', 'i' }, '<F6>', '<esc>:w<cr>')
 
 vim.keymap.set('n', 'ca', vim.lsp.buf.code_action)
+vim.keymap.set('n', '<leader>tt', '<cmd>NeoTreeShowToggle<CR>')
+vim.keymap.set('n', '<leader>tb', '<cmd>NeoTreeShowToggle buffers<CR>')
 
 vim.keymap.set('n', ']b', ':bn<cr>')
 vim.keymap.set('n', '[b', ':bp<cr>')
 
 require 'dapconfig'
 require 'colorschemes'
+require 'highlights'
+-- require 'netman'

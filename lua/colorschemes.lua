@@ -1,5 +1,5 @@
 -- Colorschemes
-vim.g.everforest_background = 'hard'
+vim.g.everforest_background = 'soft'
 vim.g.everforest_diagnostic_virtual_text = 'colored'
 
 vim.g.edge_better_performance = 1

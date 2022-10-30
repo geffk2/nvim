@@ -163,8 +163,10 @@ return require('packer').startup(function(use)
     'L3MON4D3/luasnip',
     config = function()
       require 'luasnip.loaders.from_vscode'.lazy_load()
+      require 'luasnip.loaders.from_vscode'.lazy_load { paths = { "./snips" } }
     end
   }
+  use 'rafamadriz/friendly-snippets'
   use {
     'hrsh7th/nvim-cmp',
     requires = {
@@ -188,6 +190,12 @@ return require('packer').startup(function(use)
 
   -- Navigation
   use {
+    'folke/which-key.nvim',
+    config = function()
+      require 'plugins.wk'
+    end
+  }
+  use {
     'anuvyklack/hydra.nvim',
     config = function()
       require 'plugins.hydra'
@@ -196,9 +204,26 @@ return require('packer').startup(function(use)
   use {
     'echasnovski/mini.nvim',
     config = function()
-      require 'mini.pairs'.setup()
-      require 'mini.surround'.setup()
+      require "mini.pairs".setup()
+      require('mini.surround').setup({
+        mappings = {
+          add = 'ys',
+          delete = 'ds',
+          find = '',
+          find_left = '',
+          highlight = '',
+          replace = 'cs',
+          update_n_lines = '',
+          suffix_last = '',
+          suffix_next = '',
+        },
+        search_method = 'cover_or_next',
+      })
       require 'mini.ai'.setup()
+      require 'mini.jump'.setup()
+      require 'plugins.starter'
+
+      vim.api.nvim_set_hl(0, 'MiniJump', { underdouble = true, bold = true })
     end
   }
   use {
@@ -207,7 +232,6 @@ return require('packer').startup(function(use)
       require 'numb'.setup()
     end
   }
-
   use 'christoomey/vim-tmux-navigator'
   use {
     'nvim-telescope/telescope.nvim',
@@ -229,7 +253,8 @@ return require('packer').startup(function(use)
   use {
     'ggandor/leap.nvim',
     config = function ()
-      require 'leap'.set_default_keymaps()
+      require 'leap'.setup {}
+      require 'leap'.add_default_mappings()
     end
   }
   use {
@@ -262,11 +287,33 @@ return require('packer').startup(function(use)
       }
     end
   }
+  use {
+    'nvim-neo-tree/neo-tree.nvim',
+    branch = 'v2.x',
+    requires = {
+      'nvim-lua/plenary.nvim',
+      'kyazdani42/nvim-web-devicons',
+      'MunifTanjim/nui.nvim'
+    },
+    config = function()
+      require 'plugins.neotree'
+    end
+  }
 
   -- Colors
   use 'sainnhe/everforest'
   use 'sainnhe/edge'
   use 'sainnhe/sonokai'
+  use {
+    'catppuccin/nvim',
+    as = 'catppuccin',
+    config = function()
+      require 'catppuccin'.setup {
+        flavour = 'mocha'
+      }
+    end
+  }
+
   use 'NTBBloodbath/doom-one.nvim'
   use {
     'norcalli/nvim-colorizer.lua',
@@ -292,21 +339,31 @@ return require('packer').startup(function(use)
   }
 
   -- Uncategorized
-  use {
-    'goolord/alpha-nvim',
-    config = function ()
-      require 'plugins.alpha'
-    end
-  }
+  -- use {
+  --   'goolord/alpha-nvim',
+  --   config = function ()
+  --     require 'plugins.alpha'
+  --   end
+  -- }
   use 'jghauser/mkdir.nvim'
   use 'RRethy/vim-illuminate'
   use 'L3MON4D3/LuaSnip'
 
   use 'sbdchd/neoformat'
+  use 'miversen33/netman.nvim'
 
+  use {
+    "ziontee113/icon-picker.nvim",
+    config = function()
+      require("icon-picker").setup({
+        disable_legacy_commands = true
+      })
+    end,
+  }
   use 'godlygeek/tabular'
   -- use 'tpope/vim-surround'
   use {
+    disable = true,
     'petertriho/nvim-scrollbar',
     config = function()
       require 'scrollbar'.setup()
