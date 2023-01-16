@@ -27,13 +27,13 @@ wk.register({
   },
   d = {
     name = 'Debugger',
-    ui = { require 'dapui'.toggle, 'Toggle UI' },
     n = { dap.continue, 'Continue' },
     ['_'] = { dap.run_last, 'Run last' },
     h = { dap.toggle_breakpoint, 'Toggle breakpoint' },
     k = { dap.step_out, 'Step out' },
     l = { dap.step_into, 'Step into' },
     j = { dap.step_over, 'Step over' },
+    r = { dap.repl.toggle, 'Toggle REPL', },
   }
 }, { prefix = "<leader>" })
 

@@ -10,6 +10,12 @@ _M.on_attach = function(_, bufnr)
   end
 
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
+  vim.api.nvim_create_autocmd('CursorHold', {
+    buffer = bufnr,
+    callback = function()
+      vim.cmd [[Lspsaga show_cursor_diagnostics]]
+    end
+  })
 
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', vim.lsp.buf.format or vim.lsp.buf.formatting,
   { desc = 'Format current buffer with LSP' })
@@ -38,7 +44,11 @@ _M.setup = function()
         }
       }
     },
-
+    pyright = {
+      python = {
+        pythonPath = 'python3'
+      }
+    }
   }
 
 

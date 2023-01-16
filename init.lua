@@ -1,6 +1,5 @@
 require 'plugins'
 require 'masonconfig'.setup()
-
 local packer_group = vim.api.nvim_create_augroup('Packer' , { clear = true })
 vim.api.nvim_create_autocmd('BufWritePost'                , {
   command = 'source <afile> | PackerCompile'              ,
@@ -12,6 +11,7 @@ vim.api.nvim_create_autocmd('BufWritePost', {
   pattern = 'init.lua'
 })
 
+vim.o.updatetime = 200
 vim.o.termguicolors = true
 vim.o.number = true
 vim.o.relativenumber = true
@@ -26,11 +26,16 @@ vim.o.softtabstop = 2
 vim.o.background = 'dark'
 vim.o.laststatus = 2
 vim.o.mouse = 'a'
+vim.o.undofile = true
 vim.opt.completeopt = {'menu', 'menuone', 'noselect'}
 vim.g.mapleader = ','
 vim.g.maplocalleader = ','
 
+
 vim.g.vimtex_view_method = 'skim'
+vim.g.vimtex_compiler_latexmk = { 
+  options = { '-verbose', '-synctex=1', '-interaction=nonstopmode', '-shell-escape'}, 
+}
 vim.keymap.set('n', '<leader>b', ':JABSOpen<cr>')
 
 -- Navigation in insert mode
@@ -70,4 +75,5 @@ vim.keymap.set('n', '[b', ':bp<cr>')
 require 'dapconfig'
 require 'colorschemes'
 require 'highlights'
+require 'usercommands'
 -- require 'netman'

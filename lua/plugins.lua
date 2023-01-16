@@ -19,13 +19,6 @@ return require('packer').startup(function(use)
 
   -- DAP
   use 'mfussenegger/nvim-dap'
-  use {
-    'rcarriga/nvim-dap-ui',
-    requires = { 'mfussenegger/nvim-dap' },
-    config = function()
-      require 'dapui'.setup()
-    end
-  }
 
   -- LSP
   use {
@@ -60,13 +53,13 @@ return require('packer').startup(function(use)
       require 'masonconfig'.config()
     end
   }
-  use({
+  use {
     "glepnir/lspsaga.nvim",
     branch = "main",
     config = function()
       require 'plugins.sagaconf'
     end,
-  })
+  }
   use {
     'williamboman/mason-lspconfig.nvim',
     after = 'mason.nvim'
@@ -134,8 +127,9 @@ return require('packer').startup(function(use)
       'nvim-treesitter/nvim-treesitter-textobjects',
     }
   }
+  use 'nvim-treesitter/playground'
   use 'p00f/nvim-ts-rainbow'
-  -- use 'jiangmiao/auto-pairs'
+  use 'wlangstroth/vim-racket'
   use {
     'numToStr/Comment.nvim',
     config = function()
@@ -161,12 +155,32 @@ return require('packer').startup(function(use)
   }
   use {
     'L3MON4D3/luasnip',
+    tag = 'v1.1.*',
     config = function()
       require 'luasnip.loaders.from_vscode'.lazy_load()
       require 'luasnip.loaders.from_vscode'.lazy_load { paths = { "./snips" } }
     end
   }
   use 'rafamadriz/friendly-snippets'
+
+  use {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "VimEnter",
+    config = function()
+      vim.defer_fn(function()
+        require("copilot").setup()
+      end, 100)
+    end,
+  }
+  use {
+    "zbirenbaum/copilot-cmp",
+    after = { "copilot.lua" },
+    config = function ()
+      require("copilot_cmp").setup()
+    end
+  }
+
   use {
     'hrsh7th/nvim-cmp',
     requires = {
@@ -180,6 +194,12 @@ return require('packer').startup(function(use)
     },
     after = 'luasnip',
     config = function()
+      local lspkind = require("lspkind")
+      lspkind.init({
+        symbol_map = {
+          Copilot = "",
+        },
+      })
       require 'plugins.setupcmp'
     end
   }
@@ -221,6 +241,7 @@ return require('packer').startup(function(use)
       })
       require 'mini.ai'.setup()
       require 'mini.jump'.setup()
+      -- require 'mini.animate'.setup()
       require 'plugins.starter'
 
       vim.api.nvim_set_hl(0, 'MiniJump', { underdouble = true, bold = true })
@@ -255,6 +276,7 @@ return require('packer').startup(function(use)
     config = function ()
       require 'leap'.setup {}
       require 'leap'.add_default_mappings()
+      require 'plugins.leapconfig'
     end
   }
   use {
@@ -265,25 +287,6 @@ return require('packer').startup(function(use)
         width = 50,
         height = 10,
         border = 'shadow'
-      }
-    end
-  }
-  use {
-    'kyazdani42/nvim-tree.lua',
-    disable = true,
-    requires = {
-      'kyazdani42/nvim-web-devicons',
-    },
-    tag = 'nightly',
-    config = function()
-      require 'nvim-tree'.setup {
-        view = {
-          side = "right",
-          width = 40,
-        },
-        git = {
-          enable = false,
-        }
       }
     end
   }
@@ -300,7 +303,7 @@ return require('packer').startup(function(use)
     end
   }
 
-  -- Colors
+  -- colors
   use 'sainnhe/everforest'
   use 'sainnhe/edge'
   use 'sainnhe/sonokai'
@@ -313,21 +316,60 @@ return require('packer').startup(function(use)
       }
     end
   }
+  use 'glepnir/zephyr-nvim'
 
-  use 'NTBBloodbath/doom-one.nvim'
   use {
     'norcalli/nvim-colorizer.lua',
     config = function()
       require 'colorizer'.setup()
     end
   }
+  -- Python
+  use {
+    'jpalardy/vim-slime',
+    config = function()
+      vim.g.slime_target = 'tmux'
+      vim.g.slime_default_config = {
+        socket_name = 'default',
+        target_pane = '{last}'
+      }
+      vim.g.slime_python_ipython = 1
+    end
+  }
+
+  -- obsidian 
+  use {
+    'preservim/vim-markdown',
+    requires = { 'godlygeek/tabular' },
+    config = function()
+      vim.g.vim_markdown_folding_disabled = 1
+    end
+  }
+  use {
+    'epwalsh/obsidian.nvim',
+    config = function ()
+      require 'obsidian'.setup {
+        dir = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/DnD/",
+      }
+      vim.keymap.set("n", "gf",
+        function()
+          if require('obsidian').util.cursor_on_markdown_link() then
+            return "<cmd>ObsidianFollowLink<CR>"
+          else
+            return "gf"
+          end
+        end, { noremap = false, expr = true})
+    end
+  }
+
   -- Clojure
   use 'radenling/vim-dispatch-neovim'
+  -- use 'tpope/vim-surround'
   use 'clojure-vim/vim-jack-in'
   use {
     'Olical/conjure',
     branch = 'master',
-    ft = { 'clojure', 'fennel' }
+    ft = { 'clojure', 'fennel', 'racket' }
   }
   use {
     'guns/vim-sexp',
@@ -338,16 +380,8 @@ return require('packer').startup(function(use)
     ft = { 'clojure', 'fennel' }
   }
 
-  -- Uncategorized
-  -- use {
-  --   'goolord/alpha-nvim',
-  --   config = function ()
-  --     require 'plugins.alpha'
-  --   end
-  -- }
   use 'jghauser/mkdir.nvim'
   use 'RRethy/vim-illuminate'
-  use 'L3MON4D3/LuaSnip'
 
   use 'sbdchd/neoformat'
   use 'miversen33/netman.nvim'
@@ -361,7 +395,6 @@ return require('packer').startup(function(use)
     end,
   }
   use 'godlygeek/tabular'
-  -- use 'tpope/vim-surround'
   use {
     disable = true,
     'petertriho/nvim-scrollbar',

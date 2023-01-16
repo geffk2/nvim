@@ -19,11 +19,14 @@ cmp.setup {
     {name = 'path'},
     {name = 'nvim_lsp', keyword_length = 1},
     {name = 'buffer', keyword_length = 1},
+    {name = 'conjure'},
     {name = 'luasnip', keyword_length = 1},
+    {name = 'copilot'},
   },
   window = {
     documentation = cmp.config.window.bordered(),
     completion = {
+      border = 'single',
       winhighlight = 'Normal:Pmenu,FloatBorder:Pmenu,Search:None',
       col_offset=-3,
       side_padding = 0
@@ -51,7 +54,7 @@ cmp.setup {
 
     ['<C-e>'] = cmp.mapping.abort(),
 
-    ['<CR>'] = cmp.mapping.confirm({select = true}),
+    ['<CR>'] = cmp.mapping.confirm({select = true, behavior = cmp.ConfirmBehavior.Replace, }),
     -- ['<Space>'] = cmp.mapping.confirm({select = true}),
 
     ["<Tab>"] = cmp.mapping(function(fallback)

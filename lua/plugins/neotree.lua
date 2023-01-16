@@ -3,6 +3,9 @@ local conf = {
   popup_border_style = "rounded",
   enable_git_status = false,
   enable_diagnostics = false,
+  source_selector = {
+    winbar = true,
+  },
   default_component_configs = {
     indent = {
       indent_size = 2,

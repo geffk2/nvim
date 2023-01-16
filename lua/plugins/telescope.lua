@@ -93,6 +93,6 @@ wk.register({
 
 vim.keymap.set('n', '<leader>=', ':Tabularize /=<cr>')
 vim.keymap.set('n', '<leader>-', ':Tabularize /-<cr>')
-vim.keymap.set('n', '<leader>,', ':Tabularize /,<cr>')
+-- vim.keymap.set('n', '<leader>,', ':Tabularize /,<cr>')
 vim.keymap.set('n', '<leader>#', ':Tabularize /#<cr>')
 vim.keymap.set('n', '<leader>:', ':Tabularize /:<cr>')

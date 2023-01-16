@@ -3,7 +3,8 @@ local starter = require 'mini.starter'
 starter.setup {
   autoopen = true,
   items = {
-    { name = 'Settings', action = 'e ~/.config/nvim/init.lua', section = 'Do stuff' },
+    { name = 'Settings', action = 'e $HOME/.config/nvim/init.lua | :cd %:p:h |  pwd', section = 'Do stuff' },
+    { name = 'DnD Obsidian', action = 'e $HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/DnD/World.md | :cd %:p:h | pwd', section = 'Do stuff'},
     { name = 'Quit', action = 'q', section = 'Do stuff' },
     starter.sections.recent_files(10, false),
   },
