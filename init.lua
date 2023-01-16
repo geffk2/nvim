@@ -25,8 +25,6 @@ vim.api.nvim_create_autocmd('BufWritePost', {
   pattern = 'init.lua'
 })
 
-
-
 vim.g.vimtex_view_method = 'skim'
 vim.g.vimtex_compiler_latexmk = { 
   options = { '-verbose', '-synctex=1', '-interaction=nonstopmode', '-shell-escape'}, 

@@ -58,6 +58,7 @@ return require('lazy').setup({
   },
   {
     "glepnir/lspsaga.nvim",
+    command = 'LspSaga',
     branch = "main",
     config = function()
       require 'plugins.sagaconf'
