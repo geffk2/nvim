@@ -1,16 +1,3 @@
-require 'plugins'
-require 'masonconfig'.setup()
-local packer_group = vim.api.nvim_create_augroup('Packer' , { clear = true })
-vim.api.nvim_create_autocmd('BufWritePost'                , {
-  command = 'source <afile> | PackerCompile'              ,
-  group = packer_group                                    ,
-  pattern = 'plugins.lua'                                 ,
-})
-vim.api.nvim_create_autocmd('BufWritePost', {
-  command = 'source <afile>',
-  pattern = 'init.lua'
-})
-
 vim.o.updatetime = 200
 vim.o.termguicolors = true
 vim.o.number = true
@@ -30,6 +17,14 @@ vim.o.undofile = true
 vim.opt.completeopt = {'menu', 'menuone', 'noselect'}
 vim.g.mapleader = ','
 vim.g.maplocalleader = ','
+
+require 'plugins'
+require 'masonconfig'.setup()
+vim.api.nvim_create_autocmd('BufWritePost', {
+  command = 'source <afile>',
+  pattern = 'init.lua'
+})
+
 
 
 vim.g.vimtex_view_method = 'skim'
@@ -66,8 +61,6 @@ vim.keymap.set({ 'n', 'i' }, '<c-s>', '<esc>:w<cr>')
 vim.keymap.set({ 'n', 'i' }, '<F6>', '<esc>:w<cr>')
 
 vim.keymap.set('n', 'ca', vim.lsp.buf.code_action)
-vim.keymap.set('n', '<leader>tt', '<cmd>NeoTreeShowToggle<CR>')
-vim.keymap.set('n', '<leader>tb', '<cmd>NeoTreeShowToggle buffers<CR>')
 
 vim.keymap.set('n', ']b', ':bn<cr>')
 vim.keymap.set('n', '[b', ':bp<cr>')

@@ -1,36 +1,39 @@
-local fn = vim.fn
-local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
-if fn.empty(fn.glob(install_path)) > 0 then
-  packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
 end
+vim.opt.rtp:prepend(lazypath)
 
-return require('packer').startup(function(use)
-  use 'wbthomason/packer.nvim' -- this is essential.
 
+return require('lazy').setup({
   -- Git
-  use {
+  {
     'lewis6991/gitsigns.nvim',
     config = function()
       require 'gitsigns'.setup()
     end
-  }
-  use { 'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim' }
-  use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
+  },
+  {'nvim-lua/plenary.nvim', lazy=true},
 
   -- DAP
-  use 'mfussenegger/nvim-dap'
+  'mfussenegger/nvim-dap',
 
   -- LSP
-  use {
+  {
     'j-hui/fidget.nvim',
-    config = function()
-      require 'fidget'.setup{}
-    end
-  }
-  use {
+    config = true,
+  },
+  {
     'jose-elias-alvarez/null-ls.nvim',
-    disable = true,
-    requires = 'nvim-lua/plenary.nvim' ,
+    ft = { 'lua', 'python', 'sh', 'tex', 'cpp'},
+    enabled = false,
     config = function()
       require 'null-ls'.setup {
         sources = {
@@ -42,29 +45,26 @@ return require('packer').startup(function(use)
         }
       }
     end
-  }
-  use {
-    'neovim/nvim-lspconfig',
-    after = 'mason-lspconfig.nvim',
-  }
-  use {
+  },
+  {
     'williamboman/mason.nvim',
     config = function()
       require 'masonconfig'.config()
-    end
-  }
-  use {
+    end,
+    dependencies = {
+      'williamboman/mason-lspconfig.nvim',
+      'neovim/nvim-lspconfig',
+    }
+  },
+  {
     "glepnir/lspsaga.nvim",
     branch = "main",
     config = function()
       require 'plugins.sagaconf'
     end,
-  }
-  use {
-    'williamboman/mason-lspconfig.nvim',
-    after = 'mason.nvim'
-  }
-  use {
+  },
+
+  {
     'simrat39/rust-tools.nvim',
     ft = 'rust',
     config = function()
@@ -98,12 +98,11 @@ return require('packer').startup(function(use)
       }
       vim.api.nvim_set_keymap('n', '<leader>rr', '<cmd>RustRun<cr>', {silent = true, noremap = true})
     end
-  }
+  },
 
-  use {
+  {
     'saecki/crates.nvim',
     event = { "BufRead Cargo.toml" },
-    requires = { { 'nvim-lua/plenary.nvim' } },
     config = function()
       require('crates').setup {
         src = {
@@ -114,23 +113,22 @@ return require('packer').startup(function(use)
         }
       }
     end,
-  }
+  },
 
   -- Syntax
-  use {
+  {
     'nvim-treesitter/nvim-treesitter',
-    run = ':TSUpdate',
+    build = ':TSUpdate',
     config = function ()
       require 'plugins.treesitter'
     end,
-    requires = {
+    dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
     }
-  }
-  use 'nvim-treesitter/playground'
-  use 'p00f/nvim-ts-rainbow'
-  use 'wlangstroth/vim-racket'
-  use {
+  },
+  'nvim-treesitter/playground',
+  'p00f/nvim-ts-rainbow',
+  {
     'numToStr/Comment.nvim',
     config = function()
       require 'Comment'.setup({
@@ -140,30 +138,18 @@ return require('packer').startup(function(use)
         }
       })
     end
-  }
-  use {
-    disable = true,
-    'ms-jpq/coq_nvim',
-    requires = {
-      'ms-jpq/coq.artifacts',
-    },
-    branch = 'coq',
-    run = ':COQdeps',
-    setup = function ()
-      require 'plugins.coq'
-    end,
-  }
-  use {
+  },
+  {
     'L3MON4D3/luasnip',
-    tag = 'v1.1.*',
+    version = 'v1.1.*',
     config = function()
       require 'luasnip.loaders.from_vscode'.lazy_load()
       require 'luasnip.loaders.from_vscode'.lazy_load { paths = { "./snips" } }
     end
-  }
-  use 'rafamadriz/friendly-snippets'
+  },
+  'rafamadriz/friendly-snippets',
 
-  use {
+  {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     event = "VimEnter",
@@ -172,27 +158,24 @@ return require('packer').startup(function(use)
         require("copilot").setup()
       end, 100)
     end,
-  }
-  use {
-    "zbirenbaum/copilot-cmp",
-    after = { "copilot.lua" },
-    config = function ()
-      require("copilot_cmp").setup()
-    end
-  }
+  },
 
-  use {
+  {
     'hrsh7th/nvim-cmp',
-    requires = {
+    event = 'InsertEnter',
+    dependencies = {
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-cmdline',
       'L3MON4D3/luasnip',
       'saadparwaiz1/cmp_luasnip',
-      'onsails/lspkind.nvim'
+      'onsails/lspkind.nvim',
+      {
+        "zbirenbaum/copilot-cmp",
+        config = true,
+      },
     },
-    after = 'luasnip',
     config = function()
       local lspkind = require("lspkind")
       lspkind.init({
@@ -202,26 +185,31 @@ return require('packer').startup(function(use)
       })
       require 'plugins.setupcmp'
     end
-  }
+  },
 
-  use {
-    'lervag/vimtex'
-  }
+  {
+    'lervag/vimtex',
+    ft = 'tex',
+  },
 
   -- Navigation
-  use {
+  {
     'folke/which-key.nvim',
     config = function()
       require 'plugins.wk'
     end
-  }
-  use {
+  },
+  {
     'anuvyklack/hydra.nvim',
+    dependencies = {
+      'sindrets/diffview.nvim',
+      {'TimUntersberger/neogit', opts = { integrations = { diffview = true}}},
+    },
     config = function()
       require 'plugins.hydra'
     end
-  }
-  use {
+  },
+  {
     'echasnovski/mini.nvim',
     config = function()
       require "mini.pairs".setup()
@@ -246,42 +234,31 @@ return require('packer').startup(function(use)
 
       vim.api.nvim_set_hl(0, 'MiniJump', { underdouble = true, bold = true })
     end
-  }
-  use {
+  },
+  {
+    -- Peek line numbers
     'nacro90/numb.nvim',
-    config = function()
-      require 'numb'.setup()
-    end
-  }
-  use 'christoomey/vim-tmux-navigator'
-  use {
+    config = true
+  },
+
+  'christoomey/vim-tmux-navigator',
+  {
     'nvim-telescope/telescope.nvim',
-    requires = { {'nvim-lua/plenary.nvim'} },
+    lazy = true,
     config = function()
       require 'plugins.telescope'
     end
-  }
-  use {
-    'stevearc/dressing.nvim',
-    config = function()
-      require 'dressing'.setup {
-        select = {
-          -- backend = { 'builtin', 'telescope', 'fzf_lua', 'fzf', 'nui' }
-        }
-      }
-    end
-  }
-  use {
+  },
+  {
     'ggandor/leap.nvim',
     config = function ()
       require 'leap'.setup {}
       require 'leap'.add_default_mappings()
       require 'plugins.leapconfig'
     end
-  }
-  use {
+  },
+  {
     'matbme/JABS.nvim',
-    requires = 'kyazdani42/nvim-web-devicons',
     config = function()
       require 'jabs'.setup {
         width = 50,
@@ -289,44 +266,54 @@ return require('packer').startup(function(use)
         border = 'shadow'
       }
     end
-  }
-  use {
+  },
+
+  'kyazdani42/nvim-web-devicons',
+  {
     'nvim-neo-tree/neo-tree.nvim',
     branch = 'v2.x',
-    requires = {
-      'nvim-lua/plenary.nvim',
-      'kyazdani42/nvim-web-devicons',
+    dependencies = {
       'MunifTanjim/nui.nvim'
+    },
+    keys = {
+      {'<leader>tt', '<cmd>NeoTreeShowToggle<CR>', 'NeoTree toggle'},
+      {'<leader>tb', '<cmd>NeoTreeShowToggle buffers<CR>', 'NeoTree toggle buffers'}
     },
     config = function()
       require 'plugins.neotree'
     end
-  }
+  },
 
   -- colors
-  use 'sainnhe/everforest'
-  use 'sainnhe/edge'
-  use 'sainnhe/sonokai'
-  use {
+  {'sainnhe/everforest', lazy = true,},
+
+  {
+    'sainnhe/edge',
+    lazy = false,
+    priority = 1000,
+  },
+  {'sainnhe/sonokai', lazy = true},
+  {
     'catppuccin/nvim',
+    lazy = true,
     as = 'catppuccin',
     config = function()
       require 'catppuccin'.setup {
         flavour = 'mocha'
       }
     end
-  }
-  use 'glepnir/zephyr-nvim'
+  },
 
-  use {
+  {
     'norcalli/nvim-colorizer.lua',
     config = function()
       require 'colorizer'.setup()
     end
-  }
+  },
   -- Python
-  use {
+  {
     'jpalardy/vim-slime',
+    ft = 'python',
     config = function()
       vim.g.slime_target = 'tmux'
       vim.g.slime_default_config = {
@@ -335,83 +322,81 @@ return require('packer').startup(function(use)
       }
       vim.g.slime_python_ipython = 1
     end
-  }
+  },
 
   -- obsidian 
-  use {
+  {
     'preservim/vim-markdown',
-    requires = { 'godlygeek/tabular' },
+    dependencies = { 'godlygeek/tabular' },
+    ft = 'markdown',
     config = function()
       vim.g.vim_markdown_folding_disabled = 1
     end
-  }
-  use {
+  },
+  {
     'epwalsh/obsidian.nvim',
+    ft = 'markdown',
     config = function ()
       require 'obsidian'.setup {
         dir = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/DnD/",
       }
       vim.keymap.set("n", "gf",
-        function()
-          if require('obsidian').util.cursor_on_markdown_link() then
-            return "<cmd>ObsidianFollowLink<CR>"
-          else
-            return "gf"
-          end
-        end, { noremap = false, expr = true})
+      function()
+        if require('obsidian').util.cursor_on_markdown_link() then
+          return "<cmd>ObsidianFollowLink<CR>"
+        else
+          return "gf"
+        end
+      end, { noremap = false, expr = true})
     end
-  }
+  },
 
   -- Clojure
-  use 'radenling/vim-dispatch-neovim'
-  -- use 'tpope/vim-surround'
-  use 'clojure-vim/vim-jack-in'
-  use {
+  {
     'Olical/conjure',
     branch = 'master',
     ft = { 'clojure', 'fennel', 'racket' }
-  }
-  use {
+  },
+  {
     'guns/vim-sexp',
     ft = { 'clojure', 'fennel' }
-  }
-  use {
+  },
+  {
     'tpope/vim-sexp-mappings-for-regular-people',
     ft = { 'clojure', 'fennel' }
-  }
+  },
 
-  use 'jghauser/mkdir.nvim'
-  use 'RRethy/vim-illuminate'
+  'jghauser/mkdir.nvim',
+  'RRethy/vim-illuminate',
 
-  use 'sbdchd/neoformat'
-  use 'miversen33/netman.nvim'
+  'sbdchd/neoformat',
+  'miversen33/netman.nvim',
 
-  use {
+  {
     "ziontee113/icon-picker.nvim",
     config = function()
       require("icon-picker").setup({
         disable_legacy_commands = true
       })
     end,
-  }
-  use 'godlygeek/tabular'
-  use {
-    disable = true,
+  },
+  'godlygeek/tabular',
+  {
+    enabled = false,
     'petertriho/nvim-scrollbar',
     config = function()
       require 'scrollbar'.setup()
     end
-  }
-  use {
+  },
+  {
     'nvim-lualine/lualine.nvim',
-    requires = { 'kyadzani42/nvim-web-devicons', opt=true },
     config = function()
       require 'plugins.lualine'
     end
-  }
+  },
 
-  use 'psliwka/vim-smoothie'
+  'psliwka/vim-smoothie',
 
-end)
+})
 
 
