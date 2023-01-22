@@ -6,7 +6,7 @@ wk.register({
     vim.lsp.buf.code_action, "Code Action"
   },
   cd = {
-    '<cmd>Lspsaga show_line_diagnostics<cr>', "Show Diagnostics"
+    require 'lsp_lines'.toggle, "Show Diagnostics"
   },
   g = {
     name = "Goto [LSP]",

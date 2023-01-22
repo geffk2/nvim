@@ -54,10 +54,20 @@ return require('lazy').setup({
     dependencies = {
       'williamboman/mason-lspconfig.nvim',
       'neovim/nvim-lspconfig',
+      {
+        'folke/neodev.nvim',
+        setup = true,
+      },
     }
   },
   {
+    "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+    config = true,
+    dependencies = { 'williamboman/mason.nvim' }
+  },
+  {
     "glepnir/lspsaga.nvim",
+    enabled = false,
     command = 'LspSaga',
     branch = "main",
     config = function()
@@ -128,7 +138,6 @@ return require('lazy').setup({
     }
   },
   'nvim-treesitter/playground',
-  'p00f/nvim-ts-rainbow',
   {
     'numToStr/Comment.nvim',
     config = function()
@@ -202,10 +211,12 @@ return require('lazy').setup({
   },
   {
     'anuvyklack/hydra.nvim',
+    lazy = true,
     dependencies = {
       'sindrets/diffview.nvim',
       {'TimUntersberger/neogit', opts = { integrations = { diffview = true}}},
     },
+    keys = {'<leader>g'},
     config = function()
       require 'plugins.hydra'
     end
@@ -236,6 +247,7 @@ return require('lazy').setup({
       vim.api.nvim_set_hl(0, 'MiniJump', { underdouble = true, bold = true })
     end
   },
+  'psliwka/vim-smoothie',
   {
     -- Peek line numbers
     'nacro90/numb.nvim',
@@ -248,6 +260,12 @@ return require('lazy').setup({
     lazy = true,
     config = function()
       require 'plugins.telescope'
+    end
+  },
+  {
+    'stevearc/dressing.nvim',
+    config = function()
+      require('dressing').setup()
     end
   },
   {
@@ -300,7 +318,6 @@ return require('lazy').setup({
     as = 'catppuccin',
     config = function()
       require 'catppuccin'.setup {
-        flavour = 'mocha'
       }
     end
   },
@@ -368,7 +385,11 @@ return require('lazy').setup({
   },
 
   'jghauser/mkdir.nvim',
-  'RRethy/vim-illuminate',
+
+  {
+    'RRethy/vim-illuminate',
+    event = 'BufRead',
+  },
 
   'sbdchd/neoformat',
   'miversen33/netman.nvim',
@@ -395,8 +416,36 @@ return require('lazy').setup({
       require 'plugins.lualine'
     end
   },
+  {
+    "kdheepak/tabline.nvim",
+    enabled = false,
+    dependencies = { 'nvim-lualine/lualine.nvim', 'kyazdani42/nvim-web-devicons' },
+    config = function()
+      require 'tabline'.setup {
+        -- Defaults configuration options
+        enable = true,
+        options = {
+          -- If lualine is installed tabline will use separators configured in lualine by default.
+          -- These options can be used to override those settings.
+          component_separators = { '', '' },
+          section_separators = { '', '' },
+          max_bufferline_percent = 66, -- set to nil by default, and it uses vim.o.columns * 2/3
+          show_tabs_always = true, -- this shows tabs only when there are more than one tab or if the first tab is named
+          show_devicons = true, -- this shows devicons in buffer section
+          show_bufnr = false, -- this appends [bufnr] to buffer section,
+          show_filename_only = true, -- shows base filename only instead of relative path in filename
+          modified_icon = "+ ", -- change the default modified icon
+          modified_italic = true, -- set to true by default; this determines whether the filename turns italic if modified
+          show_tabs_only = false, -- this shows only tabs instead of tabs + buffers
+        }
+      }
+      vim.cmd [[
+      set guioptions-=e " Use showtabline in gui vim
+      set sessionoptions+=tabpages,globals " store tabpages and globals in session
+      ]]
+    end,
+  },
 
-  'psliwka/vim-smoothie',
 
 })
 

@@ -27,9 +27,18 @@ vim.api.nvim_create_autocmd('BufWritePost', {
 
 vim.g.vimtex_view_method = 'skim'
 vim.g.vimtex_compiler_latexmk = { 
-  options = { '-verbose', '-synctex=1', '-interaction=nonstopmode', '-shell-escape'}, 
+  options = { '-verbose', '-synctex=1', '-interaction=nonstopmode', '-shell-escape'},
 }
 vim.keymap.set('n', '<leader>b', ':JABSOpen<cr>')
+vim.diagnostic.config({
+  virtual_text = false,
+})
+
+local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
 
 -- Navigation in insert mode
 vim.api.nvim_set_keymap('i', '<C-b>', '<ESC>^i', { silent = true, noremap = true })
@@ -67,4 +76,3 @@ require 'dapconfig'
 require 'colorschemes'
 require 'highlights'
 require 'usercommands'
--- require 'netman'
