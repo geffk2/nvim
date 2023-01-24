@@ -18,6 +18,19 @@ vim.opt.completeopt = {'menu', 'menuone', 'noselect'}
 vim.g.mapleader = ','
 vim.g.maplocalleader = ','
 
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
+
 require 'plugins'
 require 'masonconfig'.setup()
 vim.api.nvim_create_autocmd('BufWritePost', {
@@ -32,6 +45,7 @@ vim.g.vimtex_compiler_latexmk = {
 vim.keymap.set('n', '<leader>b', ':JABSOpen<cr>')
 vim.diagnostic.config({
   virtual_text = false,
+  virtual_lines = false,
 })
 
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
@@ -71,6 +85,11 @@ vim.keymap.set('n', 'ca', vim.lsp.buf.code_action)
 
 vim.keymap.set('n', ']b', ':bn<cr>')
 vim.keymap.set('n', '[b', ':bp<cr>')
+
+function EdgeGetPalette()
+  local conf = vim.fn['edge#get_configuration']()
+  return vim.fn['edge#get_palette'](conf.style, conf.dim_foreground, conf.colors_override)
+end
 
 require 'dapconfig'
 require 'colorschemes'

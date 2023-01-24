@@ -1,17 +1,3 @@
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
-    lazypath,
-  })
-end
-vim.opt.rtp:prepend(lazypath)
-
-
 return require('lazy').setup({
   -- Git
   {
@@ -66,15 +52,11 @@ return require('lazy').setup({
     dependencies = { 'williamboman/mason.nvim' }
   },
   {
-    "glepnir/lspsaga.nvim",
+    'SmiteshP/nvim-navic',
     enabled = false,
-    command = 'LspSaga',
-    branch = "main",
-    config = function()
-      require 'plugins.sagaconf'
-    end,
+    dependencies = { 'williamboman/mason.nvim' },
+    setup = { highlight = true, }
   },
-
   {
     'simrat39/rust-tools.nvim',
     ft = 'rust',
@@ -129,6 +111,7 @@ return require('lazy').setup({
   -- Syntax
   {
     'nvim-treesitter/nvim-treesitter',
+    event = 'BufRead',
     build = ':TSUpdate',
     config = function ()
       require 'plugins.treesitter'
@@ -137,7 +120,6 @@ return require('lazy').setup({
       'nvim-treesitter/nvim-treesitter-textobjects',
     }
   },
-  'nvim-treesitter/playground',
   {
     'numToStr/Comment.nvim',
     config = function()
@@ -149,16 +131,7 @@ return require('lazy').setup({
       })
     end
   },
-  {
-    'L3MON4D3/luasnip',
-    version = 'v1.1.*',
-    config = function()
-      require 'luasnip.loaders.from_vscode'.lazy_load()
-      require 'luasnip.loaders.from_vscode'.lazy_load { paths = { "./snips" } }
-    end
-  },
   'rafamadriz/friendly-snippets',
-
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
@@ -178,7 +151,14 @@ return require('lazy').setup({
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-cmdline',
-      'L3MON4D3/luasnip',
+      {
+        'L3MON4D3/luasnip',
+        version = 'v1.1.*',
+        config = function()
+          require 'luasnip.loaders.from_vscode'.lazy_load()
+          require 'luasnip.loaders.from_vscode'.lazy_load { paths = { "./snips" } }
+        end
+      },
       'saadparwaiz1/cmp_luasnip',
       'onsails/lspkind.nvim',
       {
@@ -205,9 +185,10 @@ return require('lazy').setup({
   -- Navigation
   {
     'folke/which-key.nvim',
+    lazy = false,
     config = function()
       require 'plugins.wk'
-    end
+    end,
   },
   {
     'anuvyklack/hydra.nvim',
@@ -257,7 +238,7 @@ return require('lazy').setup({
   'christoomey/vim-tmux-navigator',
   {
     'nvim-telescope/telescope.nvim',
-    lazy = true,
+    event = 'BufReadPost',
     config = function()
       require 'plugins.telescope'
     end
@@ -353,7 +334,7 @@ return require('lazy').setup({
   },
   {
     'epwalsh/obsidian.nvim',
-    ft = 'markdown',
+    event = 'BufEnter ~/Library/Mobile Documents/iCloud~md~obsidian/Documents/DnD/*',
     config = function ()
       require 'obsidian'.setup {
         dir = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/DnD/",
@@ -416,9 +397,10 @@ return require('lazy').setup({
       require 'plugins.lualine'
     end
   },
+  'RaafatTurki/hex.nvim',
   {
     "kdheepak/tabline.nvim",
-    enabled = false,
+    lazy = true,
     dependencies = { 'nvim-lualine/lualine.nvim', 'kyazdani42/nvim-web-devicons' },
     config = function()
       require 'tabline'.setup {
@@ -445,8 +427,4 @@ return require('lazy').setup({
       ]]
     end,
   },
-
-
 })
-
-

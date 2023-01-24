@@ -1,5 +1,4 @@
 local leap = require 'leap'
-local wk = require 'which-key'
 
 local function leap_in_win()
   leap.leap { target_windows = { vim.fn.win_getid() } }
@@ -12,6 +11,11 @@ local function leap_anywhere()
   }
 end
 
+-- vim.api.nvim_create_user_command("LeapAnywhere", leap_anywhere, {})
+-- vim.api.nvim_create_user_command("LeapInWin", leap_in_win, {})
+
+
+local wk = require "which-key"
 wk.register { ["g<cr>"] = { leap_anywhere, "Leap to letter pair" } }
 
 vim.api.nvim_create_autocmd("FileType", {

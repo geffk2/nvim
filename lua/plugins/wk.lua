@@ -15,10 +15,8 @@ wk.register({
     i = { vim.lsp.buf.implementation, 'Implementation' },
   },
   r = { vim.lsp.buf.rename, 'Rename' },
-  ds = { require 'telescope.builtin'.lsp_document_symbols, 'Document Symbols' },
   w = {
     name = 'Workspace [LSP]',
-    s = { require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Symbols' },
     a = { vim.lsp.buf.add_workspace_folder, 'Add folder' },
     r = { vim.lsp.buf.remove_workspace_folder, 'Remove folder' },
     l = { function()
@@ -36,4 +34,8 @@ wk.register({
     r = { dap.repl.toggle, 'Toggle REPL', },
   }
 }, { prefix = "<leader>" })
+
+wk.register('g<cr>',{ '<cmd>LeapAnywhere', 'Leap to letter pair'}, { mode = 'n' })
+wk.register('<cr>',{ '<cmd>LeapInWin', 'Leap to letter pair within window'}, { mode = "n" })
+
 

@@ -1,6 +1,6 @@
 local _M = {}
 
-_M.on_attach = function(_, bufnr)
+_M.on_attach = function(client, bufnr)
   local nmap = function(keys, func, desc)
     if desc then
       desc = 'LSP: ' .. desc
@@ -9,13 +9,17 @@ _M.on_attach = function(_, bufnr)
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
   end
 
-  -- nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
+  nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
   -- vim.api.nvim_create_autocmd('CursorHold', {
   --   buffer = bufnr,
   --   callback = function()
   --     vim.diagnostic.open_float()
   --   end
   -- })
+
+  -- if client.server_capabilities.documentSymbolProvider then
+  --   require 'nvim-navic'.attach(client, bufnr)
+  -- end
 
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', vim.lsp.buf.format or vim.lsp.buf.formatting,
   { desc = 'Format current buffer with LSP' })
