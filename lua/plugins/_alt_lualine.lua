@@ -35,7 +35,7 @@ local branch = {
 local diff = {
   "diff",
   color = { bg = "#404455", fg = "#404455" },
-  separator = { left = "", right = "" }, 
+  separator = { left = "", right = "" },
 }
 
 local function getLspName()

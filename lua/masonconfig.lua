@@ -23,6 +23,7 @@ _M.on_attach = function(client, bufnr)
 
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', vim.lsp.buf.format or vim.lsp.buf.formatting,
   { desc = 'Format current buffer with LSP' })
+  nmap('<leader>=', vim.lsp.buf.format or vim.lsp.buf.formatting, 'Format current buffer with LSP')
 end
 
 _M.config = function()

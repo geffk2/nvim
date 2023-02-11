@@ -3,7 +3,7 @@ require 'nvim-treesitter.configs'.setup {
   ignore_install = {"d", "phpdoc"},
   highlight = {
     enable = true,
-    disable = { "vim", },
+    disable = { "vim", "latex" },
   },
   rainbow = {
     enable = true,

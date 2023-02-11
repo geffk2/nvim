@@ -18,16 +18,23 @@ return require('lazy').setup({
   },
   {
     'jose-elias-alvarez/null-ls.nvim',
-    ft = { 'lua', 'python', 'sh', 'tex', 'cpp'},
-    enabled = false,
+    ft = { 'lua', 'python', 'sh', 'tex', 'cpp', 'Dockerfile', 'zsh'},
+    -- enabled = false,
     config = function()
       require 'null-ls'.setup {
+        on_attach = require 'masonconfig'.on_attach,
         sources = {
-          require 'null-ls'.builtins.diagnostics.shell_check,
-          require 'null-ls'.builtins.diagnostics.chktex,
+          require 'null-ls'.builtins.diagnostics.shellcheck,
+          -- require 'null-ls'.builtins.diagnostics.chktex,
           require 'null-ls'.builtins.diagnostics.cppcheck,
-          require 'null-ls'.builtins.diagnostics.luacheck,
-          require 'null-ls'.builtins.diagnostics.pylint
+          -- require 'null-ls'.builtins.diagnostics.luacheck,
+          -- require 'null-ls'.builtins.diagnostics.pylint,
+          require 'null-ls'.builtins.diagnostics.hadolint,
+          require 'null-ls'.builtins.formatting.autopep8,
+          require 'null-ls'.builtins.formatting.lua_format,
+          require 'null-ls'.builtins.hover.printenv.with({
+            filetypes = { "sh", "zsh",},
+          }),
         }
       }
     end
@@ -106,6 +113,20 @@ return require('lazy').setup({
         }
       }
     end,
+  },
+
+  {
+    'mrcjkb/haskell-tools.nvim',
+    ft = { 'haskell', },
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope.nvim',
+      'williamboman/mason.nvim',
+    },
+    branch = '1.x.x',
+    config = function()
+      require 'plugins.htoolsconfig'
+    end
   },
 
   -- Syntax
@@ -192,7 +213,7 @@ return require('lazy').setup({
   },
   {
     'anuvyklack/hydra.nvim',
-    lazy = true,
+    event = 'BufReadPost',
     dependencies = {
       'sindrets/diffview.nvim',
       {'TimUntersberger/neogit', opts = { integrations = { diffview = true}}},
@@ -222,22 +243,37 @@ return require('lazy').setup({
       })
       require 'mini.ai'.setup()
       require 'mini.jump'.setup()
-      -- require 'mini.animate'.setup()
+      local animate = require 'mini.animate'
+      animate.setup({
+        cursor = { enable = true, },
+        scroll = { timing = animate.gen_timing.linear({duration = 200, unit = 'total'})},
+      })
       require 'plugins.starter'
 
-      vim.api.nvim_set_hl(0, 'MiniJump', { underdouble = true, bold = true })
+      vim.api.nvim_set_hl(0, 'MiniAnimateCursor', { bg='#ffffff' })
     end
   },
-  'psliwka/vim-smoothie',
+  -- 'psliwka/vim-smoothie',
   {
     -- Peek line numbers
     'nacro90/numb.nvim',
     config = true
   },
 
-  'christoomey/vim-tmux-navigator',
+  {
+    'lukas-reineke/indent-blankline.nvim',
+    config = true,
+  },
+
+  {
+    'numToStr/Navigator.nvim',
+    config = true,
+  },
   {
     'nvim-telescope/telescope.nvim',
+    dependencies = {
+      { 'nvim-telescope/telescope-file-browser.nvim' }
+    },
     event = 'BufReadPost',
     config = function()
       require 'plugins.telescope'
@@ -253,7 +289,7 @@ return require('lazy').setup({
     'ggandor/leap.nvim',
     config = function ()
       require 'leap'.setup {}
-      require 'leap'.add_default_mappings()
+      -- require 'leap'.add_default_mappings()
       require 'plugins.leapconfig'
     end
   },
@@ -275,6 +311,7 @@ return require('lazy').setup({
     dependencies = {
       'MunifTanjim/nui.nvim'
     },
+    enabled = false,
     keys = {
       {'<leader>tt', '<cmd>NeoTreeShowToggle<CR>', 'NeoTree toggle'},
       {'<leader>tb', '<cmd>NeoTreeShowToggle buffers<CR>', 'NeoTree toggle buffers'}
@@ -295,10 +332,19 @@ return require('lazy').setup({
   {'sainnhe/sonokai', lazy = true},
   {
     'catppuccin/nvim',
-    lazy = true,
+    lazy = false,
+    priority = 1000,
     as = 'catppuccin',
     config = function()
       require 'catppuccin'.setup {
+        flavour = 'macchiato',
+        term_colors = true,
+        integrations = {
+          cmp = true,
+          gitsigns = true,
+          telescope = true,
+          mini = true,
+        }
       }
     end
   },
@@ -323,7 +369,7 @@ return require('lazy').setup({
     end
   },
 
-  -- obsidian 
+  -- obsidian
   {
     'preservim/vim-markdown',
     dependencies = { 'godlygeek/tabular' },
@@ -334,10 +380,10 @@ return require('lazy').setup({
   },
   {
     'epwalsh/obsidian.nvim',
-    event = 'BufEnter ~/Library/Mobile Documents/iCloud~md~obsidian/Documents/DnD/*',
+    event = 'BufEnter ~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Uni/*',
     config = function ()
       require 'obsidian'.setup {
-        dir = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/DnD/",
+        dir = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Uni/",
       }
       vim.keymap.set("n", "gf",
       function()
@@ -348,6 +394,10 @@ return require('lazy').setup({
         end
       end, { noremap = false, expr = true})
     end
+  },
+  {
+    'jbyuki/venn.nvim',
+    ft= 'markdown',
   },
 
   -- Clojure
@@ -372,7 +422,6 @@ return require('lazy').setup({
     event = 'BufRead',
   },
 
-  'sbdchd/neoformat',
   'miversen33/netman.nvim',
 
   {
@@ -397,7 +446,11 @@ return require('lazy').setup({
       require 'plugins.lualine'
     end
   },
-  'RaafatTurki/hex.nvim',
+  {
+    'RaafatTurki/hex.nvim',
+    cmd = 'HexToggle',
+    config = true,
+  },
   {
     "kdheepak/tabline.nvim",
     lazy = true,

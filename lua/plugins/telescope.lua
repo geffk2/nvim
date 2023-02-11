@@ -16,7 +16,7 @@ require 'telescope'.setup {
       preview_cutoff = 120,
     },
     file_sorter = require("telescope.sorters").get_fuzzy_file,
-    file_ignore_patterns = { "node_modules", 'lazy-lock.json' },
+    file_ignore_patterns = { "node_modules", '*lazy-lock.json*' },
     generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
     path_display = { "truncate" },
     border = true,
@@ -32,8 +32,9 @@ require 'telescope'.setup {
     },
   },
   extensions = {
-    ["ui-select"] = {
-      require 'telescope.themes'.get_cursor {}
+    file_browser = {
+      theme = 'ivy',
+      hijack_netrw = true,
     }
   }
 }
@@ -73,9 +74,11 @@ local use_theme = function(picker, theme)
 end
 
 -- require 'telescope'.load_extension("ui-select")
+require 'telescope'.load_extension 'file_browser'
 
 local tele = require 'telescope.builtin'
 local wk = require 'which-key'
+
 
 wk.register({
   f = {
@@ -88,38 +91,38 @@ wk.register({
     m = { tele.man_pages, "Man pages" },
     d = { tele.diagnostics, "Diagnostics" },
     q = { tele.quickfix, "Quickfix list" },
-    c = { use_theme(tele.commands, 'command_pane'), "Commands" }
+    c = { use_theme(tele.commands, 'command_pane'), "Commands" },
+    b = { require 'telescope'.extensions.file_browser.file_browser, "File browser"}
   },
   ds = { tele.lsp_document_symbols, 'Document Symbols' }
 }, { prefix = "<leader>" })
 
 
-vim.keymap.set('n', '<leader>=', ':Tabularize /=<cr>')
-vim.keymap.set('n', '<leader>-', ':Tabularize /-<cr>')
+-- vim.keymap.set('n', '<leader>=', ':Tabularize /=<cr>')
+-- vim.keymap.set('n', '<leader>-', ':Tabularize /-<cr>')
 -- vim.keymap.set('n', '<leader>,', ':Tabularize /,<cr>')
-vim.keymap.set('n', '<leader>#', ':Tabularize /#<cr>')
-vim.keymap.set('n', '<leader>:', ':Tabularize /:<cr>')
+-- vim.keymap.set('n', '<leader>#', ':Tabularize /#<cr>')
+-- vim.keymap.set('n', '<leader>:', ':Tabularize /:<cr>')
 
 
-local colors = EdgeGetPalette()
-local telescope_color = {
-	-- TelescopeMatching = { fg = colors.flamingo },
-	-- TelescopeSelection = { fg = colors.text, bg = colors.surface0, bold = true },
-	--
-	-- TelescopePromptPrefix = { bg = colors.surface0 },
-	-- TelescopePromptNormal = { bg = colors.bg_red[0] },
-	-- TelescopeResultsNormal = { bg = colors.mantle },
-	-- TelescopePreviewNormal = { bg = colors.mantle },
-	-- TelescopeBorder = {  },
-        -- TelescopeNormal = {  },
-	-- TelescopePromptBorder = { bg = colors.bg3[0] },
-	-- TelescopeResultsBorder = { bg = colors.mantle, fg = colors.mantle },
-	-- TelescopePreviewBorder = { bg = colors.mantle, fg = colors.mantle },
-	-- TelescopePromptTitle = { bg = colors.bg_red[0], fg = colors.black[0] },
-	-- TelescopeResultsTitle = { fg = colors.mantle },
-	-- TelescopePreviewTitle = { bg = colors.green, fg = colors.mantle },
-}
-for hl, col in pairs(telescope_color) do
-  vim.api.nvim_set_hl(0, hl, col)
-end
-
+-- local colors = EdgeGetPalette()
+-- local telescope_color = {
+-- 	-- TelescopeMatching = { fg = colors.flamingo },
+-- 	-- TelescopeSelection = { fg = colors.text, bg = colors.surface0, bold = true },
+-- 	-- TelescopePromptPrefix = { bg = colors.surface0 },
+-- 	-- TelescopePromptNormal = { bg = colors.bg_red[0] },
+-- 	-- TelescopeResultsNormal = { bg = colors.mantle },
+-- 	-- TelescopePreviewNormal = { bg = colors.mantle },
+-- 	TelescopeBorder = { fg = colors.purple[1], bg = colors.bg0[1]  },
+--         -- TelescopeNormal = {  },
+-- 	-- TelescopePromptBorder = { bg = colors.bg3[0] },
+-- 	-- TelescopeResultsBorder = { bg = colors.mantle, fg = colors.mantle },
+-- 	-- TelescopePreviewBorder = { bg = colors.mantle, fg = colors.mantle },
+-- 	TelescopeTitle = { bg = colors.purple[1], fg = colors.black[1] },
+-- 	-- TelescopeResultsTitle = { fg = colors.mantle },
+-- 	-- TelescopePreviewTitle = { bg = colors.green, fg = colors.mantle },
+-- }
+-- for hl, col in pairs(telescope_color) do
+--   vim.api.nvim_set_hl(0, hl, col)
+-- end
+--
