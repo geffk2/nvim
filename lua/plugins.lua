@@ -19,16 +19,13 @@ return require('lazy').setup({
   {
     'jose-elias-alvarez/null-ls.nvim',
     ft = { 'lua', 'python', 'sh', 'tex', 'cpp', 'Dockerfile', 'zsh'},
-    -- enabled = false,
+    enabled = false,
     config = function()
       require 'null-ls'.setup {
         on_attach = require 'masonconfig'.on_attach,
         sources = {
           require 'null-ls'.builtins.diagnostics.shellcheck,
-          -- require 'null-ls'.builtins.diagnostics.chktex,
           require 'null-ls'.builtins.diagnostics.cppcheck,
-          -- require 'null-ls'.builtins.diagnostics.luacheck,
-          -- require 'null-ls'.builtins.diagnostics.pylint,
           require 'null-ls'.builtins.diagnostics.hadolint,
           require 'null-ls'.builtins.formatting.autopep8,
           require 'null-ls'.builtins.formatting.lua_format,
@@ -60,9 +57,9 @@ return require('lazy').setup({
   },
   {
     'SmiteshP/nvim-navic',
-    enabled = false,
+    enabled = true,
     dependencies = { 'williamboman/mason.nvim' },
-    setup = { highlight = true, }
+    config = true
   },
   {
     'simrat39/rust-tools.nvim',
@@ -138,7 +135,7 @@ return require('lazy').setup({
       require 'plugins.treesitter'
     end,
     dependencies = {
-      'nvim-treesitter/nvim-treesitter-textobjects',
+      -- 'nvim-treesitter/nvim-treesitter-textobjects',
     }
   },
   {
@@ -155,6 +152,7 @@ return require('lazy').setup({
   'rafamadriz/friendly-snippets',
   {
     "zbirenbaum/copilot.lua",
+    enabled = false,
     cmd = "Copilot",
     event = "VimEnter",
     config = function()
@@ -163,10 +161,14 @@ return require('lazy').setup({
       end, 100)
     end,
   },
+  {
+    'github/copilot.vim',
+    enabled = false,
+  },
 
   {
     'hrsh7th/nvim-cmp',
-    event = 'InsertEnter',
+    event = 'UIEnter',
     dependencies = {
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-buffer',
@@ -184,6 +186,7 @@ return require('lazy').setup({
       'onsails/lspkind.nvim',
       {
         "zbirenbaum/copilot-cmp",
+        enabled = false,
         config = true,
       },
     },
@@ -245,15 +248,30 @@ return require('lazy').setup({
       require 'mini.jump'.setup()
       local animate = require 'mini.animate'
       animate.setup({
-        cursor = { enable = true, },
+        cursor = { enable = false, },
         scroll = { timing = animate.gen_timing.linear({duration = 200, unit = 'total'})},
       })
       require 'plugins.starter'
+      require 'mini.bracketed'.setup()
 
       vim.api.nvim_set_hl(0, 'MiniAnimateCursor', { bg='#ffffff' })
     end
   },
   -- 'psliwka/vim-smoothie',
+
+  {
+    'folke/zen-mode.nvim',
+    ft = { 'markdown', 'tex'},
+    cmd = 'ZenMode',
+    config = true,
+  },
+  {
+    "giusgad/pets.nvim",
+    dependencies = { "MunifTanjim/nui.nvim", "edluffy/hologram.nvim" },
+    event = 'UIEnter',
+    config = true,
+    enabled = false,
+  },
   {
     -- Peek line numbers
     'nacro90/numb.nvim',
@@ -272,9 +290,10 @@ return require('lazy').setup({
   {
     'nvim-telescope/telescope.nvim',
     dependencies = {
-      { 'nvim-telescope/telescope-file-browser.nvim' }
+      { 'nvim-telescope/telescope-file-browser.nvim' },
+      { 'debugloop/telescope-undo.nvim', }
     },
-    event = 'BufReadPost',
+    event = 'UIEnter',
     config = function()
       require 'plugins.telescope'
     end
@@ -323,6 +342,8 @@ return require('lazy').setup({
 
   -- colors
   {'sainnhe/everforest', lazy = true,},
+  
+  {'mcchrish/zenbones.nvim', dependencies={'rktjmp/lush.nvim'}},
 
   {
     'sainnhe/edge',
@@ -379,7 +400,16 @@ return require('lazy').setup({
     end
   },
   {
+    'phaazon/mind.nvim',
+    enabled = false,
+    branch = 'v2.2',
+    requires = { 'nvim-lua/plenary.nvim' },
+    config = true,
+    opts = { }
+  },
+  {
     'epwalsh/obsidian.nvim',
+    enabled = false,
     event = 'BufEnter ~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Uni/*',
     config = function ()
       require 'obsidian'.setup {
@@ -422,8 +452,13 @@ return require('lazy').setup({
     event = 'BufRead',
   },
 
-  'miversen33/netman.nvim',
-
+  {
+    'miversen33/netman.nvim',
+    cmd = 'Netman',
+    config = function()
+      require 'netman'
+    end
+  },
   {
     "ziontee113/icon-picker.nvim",
     config = function()
@@ -441,7 +476,16 @@ return require('lazy').setup({
     end
   },
   {
+    'rebelot/heirline.nvim',
+    enabled=false,
+    event = 'UIEnter',
+    config = function()
+      require 'plugins.heirline'
+    end
+  },
+  {
     'nvim-lualine/lualine.nvim',
+    enabled=true,
     config = function()
       require 'plugins.lualine'
     end
@@ -454,6 +498,7 @@ return require('lazy').setup({
   {
     "kdheepak/tabline.nvim",
     lazy = true,
+    enabled=true,
     dependencies = { 'nvim-lualine/lualine.nvim', 'kyazdani42/nvim-web-devicons' },
     config = function()
       require 'tabline'.setup {

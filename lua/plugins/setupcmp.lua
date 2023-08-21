@@ -21,14 +21,14 @@ cmp.setup {
     {name = 'buffer', keyword_length = 1},
     {name = 'conjure'},
     {name = 'luasnip', keyword_length = 1},
-    {name = 'copilot'},
+    -- {name = 'copilot'},
   },
   window = {
     documentation = cmp.config.window.bordered(),
     completion = {
       border = 'single',
       winhighlight = 'Normal:Pmenu,FloatBorder:Pmenu,Search:None',
-      col_offset=-3,
+      col_offset=-4,
       side_padding = 0
     }
   },

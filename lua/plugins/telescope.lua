@@ -35,6 +35,9 @@ require 'telescope'.setup {
     file_browser = {
       theme = 'ivy',
       hijack_netrw = true,
+    },
+    undo = {
+
     }
   }
 }
@@ -75,6 +78,7 @@ end
 
 -- require 'telescope'.load_extension("ui-select")
 require 'telescope'.load_extension 'file_browser'
+require 'telescope'.load_extension 'undo'
 
 local tele = require 'telescope.builtin'
 local wk = require 'which-key'
@@ -94,6 +98,7 @@ wk.register({
     c = { use_theme(tele.commands, 'command_pane'), "Commands" },
     b = { require 'telescope'.extensions.file_browser.file_browser, "File browser"}
   },
+  u = { require 'telescope'.extensions.undo.undo, "Telescope undo" },
   ds = { tele.lsp_document_symbols, 'Document Symbols' }
 }, { prefix = "<leader>" })
 

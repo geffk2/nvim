@@ -10,14 +10,16 @@ vim.o.autoindent = true
 vim.o.expandtab = true
 vim.o.shiftwidth = 2
 vim.o.softtabstop = 2
+vim.o.tabstop = 2
 vim.o.background = 'dark'
 vim.o.laststatus = 2
 vim.o.mouse = 'a'
 vim.o.undofile = true
-vim.o.conceallevel = 2
+vim.o.conceallevel = 0
+vim.o.cmdheight=1
 vim.opt.completeopt = {'menu', 'menuone', 'noselect'}
 vim.g.mapleader = ','
-vim.g.maplocalleader = ','
+vim.g.maplocalleader  = ','
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -29,12 +31,13 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+vim.o.guifont = 'Liga SFMono Nerd Font:h14'
 require 'plugins'
 require'masonconfig'.setup()
 vim.api.nvim_create_autocmd('BufWritePost',
                             {command = 'source <afile>', pattern = 'nvim/.init.lua'})
 
-vim.g.vimtex_view_method = 'skim'
+vim.g.vimtex_view_method = 'sioyek'
 vim.g.vimtex_compiler_latexmk = {
     options = {
         '-verbose', '-synctex=1', '-interaction=nonstopmode', '-shell-escape'
@@ -72,6 +75,7 @@ vim.keymap.set('n', ',ss', ':split<cr>')
 vim.keymap.set('n', ',lsp', ':LspStart<cr>')
 vim.keymap.set('n', ';', ':')
 
+
 vim.keymap.set('i', 'jk', '<esc>')
 
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight',
@@ -80,6 +84,12 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     callback = function() vim.highlight.on_yank() end,
     group = highlight_group,
     pattern = '*'
+})
+
+
+vim.api.nvim_create_autocmd('BufEnter', {
+  pattern = '*.go',
+  callback = function() vim.o.expandtab = false end
 })
 
 -- vim.api.nvim_create_autocmd('InsertEnter', {
@@ -94,13 +104,20 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 -- Key bindings
 vim.keymap.set({'n', 'i'}, '<c-s>', '<esc>:w<cr>')
+vim.keymap.set({'n', 'i'}, '<D-s>', '<esc>:w<cr>')
 vim.keymap.set({'n', 'i'}, '<F6>', '<esc>:w<cr>')
+
+-- neovide
+if vim.g.neovide then
+  vim.g.neovide_input_use_logo = true
+  vim.g.neovide_refresh_rate = 120
+  vim.g.neovide_input_macos_alt_is_meta = true
+end
 
 vim.keymap.set('n', 'ca', vim.lsp.buf.code_action)
 
-vim.keymap.set('n', ']b', ':bn<cr>')
-vim.keymap.set('n', '[b', ':bp<cr>')
-
+vim.keymap.set('n', '<c-tab>', ':bn<cr>')
+vim.keymap.set('n', '<c-s-tab>', ':bp<cr>')
 function EdgeGetPalette()
     local conf = vim.fn['edge#get_configuration']()
     return vim.fn['edge#get_palette'](conf.style, conf.dim_foreground,
@@ -111,3 +128,4 @@ require 'dapconfig'
 require 'colorschemes'
 require 'highlights'
 require 'usercommands'
+-- require 'netman'

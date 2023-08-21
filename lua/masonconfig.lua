@@ -17,9 +17,9 @@ _M.on_attach = function(client, bufnr)
   --   end
   -- })
 
-  -- if client.server_capabilities.documentSymbolProvider then
-  --   require 'nvim-navic'.attach(client, bufnr)
-  -- end
+  if client.server_capabilities.documentSymbolProvider then
+    require 'nvim-navic'.attach(client, bufnr)
+  end
 
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', vim.lsp.buf.format or vim.lsp.buf.formatting,
   { desc = 'Format current buffer with LSP' })
@@ -53,6 +53,9 @@ _M.setup = function()
       python = {
         pythonPath = 'python3'
       }
+    },
+    clangd = {
+      arguments = {'-ferror-limit=100'},
     }
   }
 

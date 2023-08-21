@@ -27,7 +27,16 @@ lualine.setup {
     },
     lualine_x = { 'encoding', 'filetype' },
     lualine_y = { 'progress', 'location' },
-    lualine_z = { { 'mode', fmt = function() return ' ' end, gui = 'bold'} }
+    lualine_z = { { 'mode', fmt =
+      function()
+        local sbar = { '🭶', '🭷', '🭸', '🭹', '🭺', '🭻' }
+        local curr_line = vim.api.nvim_win_get_cursor(0)[1]
+        local lines = vim.api.nvim_buf_line_count(0)
+        local i = math.floor((curr_line - 1) / lines * #sbar) + 1
+        return sbar[i]
+        -- return string.rep(sbar[i], 2)
+      end,
+      gui = 'regular'} }
   },
   tabline = {
     lualine_a = { 'buffers' }

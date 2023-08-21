@@ -3,7 +3,7 @@ vim.g.everforest_background = 'hard'
 vim.g.everforest_diagnostic_virtual_text = 'colored'
 
 vim.g.edge_better_performance = 1
-vim.g.edge_style = 'default'
+vim.g.edge_style = 'aura'
 vim.g.edge_diagnostic_virtual_text = 'colored'
 vim.g.edge_dim_foreground = 0
 vim.g.edge_diagnostic_line_highlight = 1
@@ -26,7 +26,7 @@ vim.g.doom_one_plugin_nvim_tree = true
 vim.g.doom_one_plugin_vim_illuminate = true
 vim.g.doom_one_plugin_lspsaga = false
 
-local theme = 'catppuccin'
+local theme = 'edge'
 vim.cmd ('colorscheme ' .. theme)
 
 return theme
